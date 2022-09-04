@@ -1,7 +1,7 @@
 # Orkes Conductor
 Orkes Conductor is a fully compatible version of Netflix Conductor with Orkes certified stack.
 
-[![Github release](https://img.shields.io/github/v/release/Netflix/conductor.svg)](https://GitHub.com/Netflix/conductor/releases)
+[![Github release](https://github.com/orkes-io/orkes-conductor-community/conductor.svg)](https://github.com/orkes-io/orkes-conductor-community/releases)
 [![CI](https://github.com/orkes-io/orkes-conductor-community/actions/workflows/ci.yaml/badge.svg)](https://github.com/orkes-io/orkes-conductor-community/actions/workflows/ci.yml)
 [![CI](https://img.shields.io/badge/license-orkes%20community%20license-green)](https://github.com/orkes-io/licenses/blob/main/community/LICENSE.txt)
 
