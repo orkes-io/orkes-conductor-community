@@ -32,9 +32,9 @@ ext {
     ]
 }
 
-def relVersion = System.getenv('REL_VERSION')
+def relVersion = System.getenv('REL_VER')
 if (relVersion) {
-    println "Inferred version from env variable 'REL_VERSION': $relVersion"
+    println "Inferred version from env variable 'REL_VER': $relVersion"
     appVersion = relVersion
 }
 
