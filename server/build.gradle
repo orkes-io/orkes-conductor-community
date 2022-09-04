@@ -1,0 +1,97 @@
+plugins {
+    id 'org.springframework.boot'
+}
+
+jar {
+    enabled = true
+}
+
+dependencies {
+
+    implementation "com.netflix.conductor:conductor-common:${versions.conductorfork}"
+    implementation "com.netflix.conductor:conductor-core:${versions.conductorfork}"
+    implementation "com.netflix.conductor:conductor-redis-lock:${versions.conductorfork}"
+    implementation "com.netflix.conductor:conductor-grpc:${versions.conductorfork}"
+    implementation "com.netflix.conductor:conductor-rest:${versions.conductorfork}"
+    implementation "com.netflix.conductor:conductor-redis-concurrency-limit:${versions.conductorfork}"
+
+    implementation "com.netflix.conductor:conductor-http-task:${versions.conductorfork}"
+    implementation "com.netflix.conductor:conductor-awss3-storage:${versions.conductorfork}"
+    implementation "com.netflix.conductor:conductor-awssqs-event-queue:${versions.conductorfork}"
+    implementation "com.netflix.conductor:conductor-json-jq-task:${versions.conductorfork}"
+    implementation "com.netflix.conductor:conductor-amqp:${versions.conductorfork}"
+    implementation "com.netflix.conductor:conductor-nats:${versions.conductorfork}"
+    implementation "com.netflix.conductor:conductor-kafka:${versions.conductorfork}"
+    implementation "com.netflix.conductor:conductor-metrics:${versions.conductorfork}"
+
+    implementation project(":orkes-conductor-redis-queues")
+    implementation project(":orkes-conductor-archive")
+    implementation project(":orkes-conductor-persistence")
+
+
+    //aws
+    implementation "com.amazonaws:aws-java-sdk-core:${versions.revAwsSdk}"
+
+
+    implementation "org.springdoc:springdoc-openapi-ui:${versions.revOpenapi}"
+    implementation "org.springdoc:springdoc-openapi-security:${versions.revOpenapi}"
+
+    //Cache
+    implementation "com.google.guava:guava:${versions.revGuava}"
+    implementation "redis.clients:jedis:${versions.revJedis}"
+
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    //protobuf
+    implementation "com.google.protobuf:protobuf-java:${versions.revProtoBuf}"
+
+
+
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    runtimeOnly 'com.netflix.spectator:spectator-reg-micrometer'
+    implementation "io.micrometer:micrometer-registry-prometheus:1.7.5"
+    implementation "io.micrometer:micrometer-core:1.8.0"
+
+    implementation "com.jayway.jsonpath:json-path:2.4.0"
+
+
+
+    implementation "io.reactivex:rxjava:1.2.2"
+    //implementation "org.apache.kafka:kafka-clients:${versions.revKafkaClient}"
+    implementation 'com.google.guava:guava:31.1-jre'
+
+    // Observable and kafka
+    //implementation "io.reactivex:rxjava:1.2.2"
+    //implementation "org.apache.kafka:kafka-clients:${versions.revKafkaClient}"
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'org.hamcrest:hamcrest'
+    testImplementation "org.awaitility:awaitility:3.1.6"
+    testImplementation 'net.java.dev.jna:jna-platform:5.8.0' //M1 fix for testcontainers
+    testImplementation 'com.jayway.jsonpath:json-path-assert:2.6.0'
+    testImplementation "org.testcontainers:postgresql:${versions.revTestContainer}"
+    //testImplementation "org.apache.kafka:kafka-clients:${versions.revKafkaClient}"
+    testImplementation "org.testcontainers:kafka:1.17.1"
+}
+
+test {
+    useJUnitPlatform()
+}
+
+bootJar {
+    manifest {
+        attributes('Implementation-Title': project.name,
+                'Implementation-Version': project.version)
+    }
+}
+
+springBoot {
+    buildInfo()
+}

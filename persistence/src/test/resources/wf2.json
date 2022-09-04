@@ -1,0 +1,391 @@
+{
+  "updateTime": 16535899854,
+  "name": "performance_test",
+  "version": 1,
+  "tasks": [
+    {
+      "name": "call_remote",
+      "taskReferenceName": "call_remote",
+      "inputParameters": {
+        "http_request": {
+          "method": "GET",
+          "uri": "https://catfact.ninja/fact"
+        }
+      },
+      "type": "HTTPv3",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "taskDefinition": {
+        "createTime": 16535899854,
+        "createdBy": "",
+        "name": "call_remote",
+        "description": "Edit or extend this sample task. Set the task name to get started",
+        "retryCount": 3,
+        "timeoutSeconds": 3600,
+        "inputKeys": [],
+        "outputKeys": [],
+        "timeoutPolicy": "TIME_OUT_WF",
+        "retryLogic": "FIXED",
+        "retryDelaySeconds": 60,
+        "responseTimeoutSeconds": 600,
+        "inputTemplate": {},
+        "rateLimitPerFrequency": 0,
+        "rateLimitFrequencyInSeconds": 1,
+        "ownerEmail": "boney@orkes.io",
+        "backoffScaleFactor": 1
+      },
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "set_state",
+      "taskReferenceName": "set_state",
+      "inputParameters": {
+        "call_made": true,
+        "length": "${call_remote.output.response.body.length}"
+      },
+      "type": "SET_VARIABLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "sub_flow",
+      "taskReferenceName": "sub_flow",
+      "inputParameters": {},
+      "type": "SUB_WORKFLOW",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "subWorkflowParam": {
+        "name": "PopulationMinMax",
+        "version": 1
+      },
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "dynamic_fork_prep",
+      "taskReferenceName": "dynamic_fork_prep",
+      "inputParameters": {},
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "taskDefinition": {
+        "createTime": 16535944141,
+        "createdBy": "",
+        "name": "dynamic_fork_prep",
+        "description": "Edit or extend this sample task. Set the task name to get started",
+        "retryCount": 3,
+        "timeoutSeconds": 3600,
+        "inputKeys": [],
+        "outputKeys": [],
+        "timeoutPolicy": "TIME_OUT_WF",
+        "retryLogic": "FIXED",
+        "retryDelaySeconds": 60,
+        "responseTimeoutSeconds": 600,
+        "inputTemplate": {},
+        "rateLimitPerFrequency": 0,
+        "rateLimitFrequencyInSeconds": 1,
+        "ownerEmail": "boney@orkes.io",
+        "backoffScaleFactor": 1
+      },
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "dynamic_fork",
+      "taskReferenceName": "dynamic_fork",
+      "inputParameters": {
+        "forkedTasks": "${dynamic_fork_prep.output.forkedTasks}",
+        "forkedTasksInputs": "${dynamic_fork_prep.output.forkedTasksInputs}"
+      },
+      "type": "FORK_JOIN_DYNAMIC",
+      "decisionCases": {},
+      "dynamicForkTasksParam": "forkedTasks",
+      "dynamicForkTasksInputParamName": "forkedTasksInputs",
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "dynamic_fork_join",
+      "taskReferenceName": "dynamic_fork_join",
+      "inputParameters": {},
+      "type": "JOIN",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "fork",
+      "taskReferenceName": "fork",
+      "inputParameters": {},
+      "type": "FORK_JOIN",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [
+        [
+          {
+            "name": "loop_until_success",
+            "taskReferenceName": "loop_until_success",
+            "inputParameters": {
+              "value": 2
+            },
+            "type": "DO_WHILE",
+            "decisionCases": {},
+            "defaultCase": [],
+            "forkTasks": [],
+            "startDelay": 0,
+            "joinOn": [],
+            "optional": true,
+            "defaultExclusiveJoinTask": [],
+            "asyncComplete": false,
+            "loopCondition": "if ( $.loop_until_success['iteration'] < $.value) { true; } else { false; }",
+            "loopOver": [
+              {
+                "name": "fact_length",
+                "taskReferenceName": "fact_length",
+                "description": "Fail if the fact is too short",
+                "inputParameters": {
+                  "fact_length": "${call_remote.output.response.body.length}"
+                },
+                "type": "SWITCH",
+                "decisionCases": {
+                  "LONG": [
+                    {
+                      "name": "call_remote_again",
+                      "taskReferenceName": "call_remote_again",
+                      "inputParameters": {
+                        "http_request": {
+                          "method": "GET",
+                          "uri": "https://catfact.ninja/fact"
+                        }
+                      },
+                      "type": "HTTPv3",
+                      "decisionCases": {},
+                      "defaultCase": [],
+                      "forkTasks": [],
+                      "startDelay": 0,
+                      "joinOn": [],
+                      "optional": false,
+                      "taskDefinition": {
+                        "createTime": 1653589944187,
+                        "createdBy": "",
+                        "name": "call_remote_again",
+                        "description": "Edit or extend this sample task. Set the task name to get started",
+                        "retryCount": 3,
+                        "timeoutSeconds": 3600,
+                        "inputKeys": [],
+                        "outputKeys": [],
+                        "timeoutPolicy": "TIME_OUT_WF",
+                        "retryLogic": "FIXED",
+                        "retryDelaySeconds": 60,
+                        "responseTimeoutSeconds": 600,
+                        "inputTemplate": {},
+                        "rateLimitPerFrequency": 0,
+                        "rateLimitFrequencyInSeconds": 1,
+                        "ownerEmail": "boney@orkes.io",
+                        "backoffScaleFactor": 1
+                      },
+                      "defaultExclusiveJoinTask": [],
+                      "asyncComplete": false,
+                      "loopOver": []
+                    }
+                  ],
+                  "SHORT": [
+                    {
+                      "name": "too_short",
+                      "taskReferenceName": "too_short",
+                      "inputParameters": {
+                        "terminationReason": "value too short",
+                        "terminationStatus": "FAILED"
+                      },
+                      "type": "TERMINATE",
+                      "decisionCases": {},
+                      "defaultCase": [],
+                      "forkTasks": [],
+                      "startDelay": 0,
+                      "joinOn": [],
+                      "optional": false,
+                      "defaultExclusiveJoinTask": [],
+                      "asyncComplete": false,
+                      "loopOver": []
+                    }
+                  ]
+                },
+                "defaultCase": [],
+                "forkTasks": [],
+                "startDelay": 0,
+                "joinOn": [],
+                "optional": false,
+                "defaultExclusiveJoinTask": [],
+                "asyncComplete": false,
+                "loopOver": [],
+                "evaluatorType": "javascript",
+                "expression": "$.fact_length < 30 ? 'SHORT':'LONG'"
+              }
+            ]
+          },
+          {
+            "name": "sub_flow_inline",
+            "taskReferenceName": "sub_flow_inline",
+            "inputParameters": {},
+            "type": "SUB_WORKFLOW",
+            "decisionCases": {},
+            "defaultCase": [],
+            "forkTasks": [],
+            "startDelay": 0,
+            "subWorkflowParam": {
+              "name": "inline_sub",
+              "version": 1,
+              "workflowDefinition": {
+                "name": "inline_sub",
+                "version": 1,
+                "tasks": [
+                  {
+                    "name": "call_something",
+                    "taskReferenceName": "call_something",
+                    "inputParameters": {
+                      "http_request": {
+                        "method": "GET",
+                        "uri": "https://catfact.ninja/fact"
+                      }
+                    },
+                    "type": "HTTPv3",
+                    "decisionCases": {},
+                    "defaultCase": [],
+                    "forkTasks": [],
+                    "startDelay": 0,
+                    "joinOn": [],
+                    "optional": false,
+                    "defaultExclusiveJoinTask": [],
+                    "asyncComplete": false,
+                    "loopOver": []
+                  }
+                ],
+                "inputParameters": [],
+                "outputParameters": {},
+                "schemaVersion": 2,
+                "restartable": true,
+                "workflowStatusListenerEnabled": false,
+                "timeoutPolicy": "ALERT_ONLY",
+                "timeoutSeconds": 0,
+                "variables": {},
+                "inputTemplate": {}
+              }
+            },
+            "joinOn": [],
+            "optional": false,
+            "defaultExclusiveJoinTask": [],
+            "asyncComplete": false,
+            "loopOver": []
+          }
+        ],
+        [
+          {
+            "name": "another",
+            "taskReferenceName": "another",
+            "inputParameters": {
+              "http_request": {
+                "method": "GET",
+                "uri": "https://catfact.ninja/fact"
+              }
+            },
+            "type": "HTTPv3",
+            "decisionCases": {},
+            "defaultCase": [],
+            "forkTasks": [],
+            "startDelay": 0,
+            "joinOn": [],
+            "optional": false,
+            "taskDefinition": {
+              "createTime": 1653589944143,
+              "createdBy": "",
+              "name": "another",
+              "description": "Edit or extend this sample task. Set the task name to get started",
+              "retryCount": 0,
+              "timeoutSeconds": 3600,
+              "inputKeys": [],
+              "outputKeys": [],
+              "timeoutPolicy": "TIME_OUT_WF",
+              "retryLogic": "FIXED",
+              "retryDelaySeconds": 60,
+              "responseTimeoutSeconds": 600,
+              "inputTemplate": {},
+              "rateLimitPerFrequency": 0,
+              "rateLimitFrequencyInSeconds": 1,
+              "ownerEmail": "boney@orkes.io",
+              "backoffScaleFactor": 1
+            },
+            "defaultExclusiveJoinTask": [],
+            "asyncComplete": false,
+            "loopOver": []
+          }
+        ]
+      ],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "fork_join",
+      "taskReferenceName": "fork_join",
+      "inputParameters": {},
+      "type": "JOIN",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    }
+  ],
+  "inputParameters": [],
+  "outputParameters": {},
+  "schemaVersion": 2,
+  "restartable": true,
+  "workflowStatusListenerEnabled": false,
+  "ownerEmail": "boney@orkes.io",
+  "timeoutPolicy": "ALERT_ONLY",
+  "timeoutSeconds": 0,
+  "variables": {},
+  "inputTemplate": {}
+}
