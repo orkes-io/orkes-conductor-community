@@ -114,19 +114,21 @@ subprojects {
             licenseHeaderFile("$rootDir/licenseheader.txt")
         }
     }
+    build.dependsOn(spotlessApply)
+
 
     publishing {
         publications {
             mavenJava(MavenPublication) {
                 from components.java
                 pom {
-                    name = 'Orkes Queues'
-                    description = 'Orkesmq - high performance redis queues'
-                    url = 'https://github.com/orkes-io/orkesmq'
+                    name = 'Orkes Conductor Community'
+                    description = 'Orkes supported version of open source Netflix Conductor'
+                    url = 'https://github.com/orkes-io/orkes-conductor-community'
                     scm {
-                        connection = 'scm:git:git://github.com/orkes-io/orkesmq.git'
-                        developerConnection = 'scm:git:git://github.com/orkes-io/orkesmq.git'
-                        url = 'https://github.com/orkes-io/orkesmq'
+                        connection = 'scm:git://github.com/orkes-io/orkes-conductor-community.git'
+                        developerConnection = 'scm:git://github.com/orkes-io/orkes-conductor-community.git'
+                        url = 'https://github.com/orkes-io/orkes-conductor-community'
                     }
                     licenses {
                         license {
@@ -154,12 +156,6 @@ subprojects {
                     credentials {
                         username project.properties.username
                         password project.properties.password
-                    }
-                } else {
-                    println "Will publish the artifacts to S3"
-                    url = "s3://orkes-artifacts-repo/${project.version.endsWith('-SNAPSHOT') ? "snapshots" : "releases"}"
-                    authentication {
-                        awsIm(AwsImAuthentication)
                     }
                 }
             }
