@@ -81,12 +81,12 @@ public abstract class ExecutionDAOTest {
         task.setTaskId(UUID.randomUUID().toString());
         task.setTaskDefName("task1");
 
-        expectedException.expect(NullPointerException.class);
+        expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Workflow instance id cannot be null");
         getExecutionDAO().createTasks(Collections.singletonList(task));
 
         task.setWorkflowInstanceId(UUID.randomUUID().toString());
-        expectedException.expect(NullPointerException.class);
+        expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Task reference name cannot be null");
         getExecutionDAO().createTasks(Collections.singletonList(task));
     }
@@ -100,7 +100,7 @@ public abstract class ExecutionDAOTest {
         task.setTaskDefName("task1");
         task.setWorkflowInstanceId(UUID.randomUUID().toString());
 
-        expectedException.expect(NullPointerException.class);
+        expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Task reference name cannot be null");
         getExecutionDAO().createTasks(Collections.singletonList(task));
     }

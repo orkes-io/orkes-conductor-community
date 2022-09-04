@@ -724,7 +724,7 @@ public class RedisExecutionDAO extends BaseDynoDAO
             Preconditions.checkNotNull(
                     task.getReferenceTaskName(), "Task reference name cannot be null");
         } catch (NullPointerException npe) {
-            throw new RuntimeException(npe);
+            throw new IllegalArgumentException(npe);
         }
     }
 }
