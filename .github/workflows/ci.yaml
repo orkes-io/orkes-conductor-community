@@ -1,13 +1,6 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
+name: CI
 
-name: Main branch PR Build
-on:
-  pull_request:
-    branches:
-      - main
+on: [ push, pull_request ]
 
 jobs:
   build:
