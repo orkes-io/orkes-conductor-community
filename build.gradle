@@ -29,7 +29,7 @@ ext {
             revAwsSdk               : '1.12.153',
             revProtoBuf             : '3.13.0',
             revRarefiedRedis        : '0.0.17',
-            revOrkesQueues          : '1.0.0'
+            revOrkesQueues          : '1.0.0-rc1'
     ]
 }
 

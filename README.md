@@ -36,7 +36,7 @@ Container image useful for local development and testing.
 
 #### Simple self-contained script to launch docker image
 ```shell
-curl https://github.com/orkes-io/orkes-conductor-community/blob/scripts/run.sh | sh
+curl https://raw.githubusercontent.com/orkes-io/orkes-conductor-community/main/scripts/run_local.sh | sh
 ```
 #### Using `docker run` manually (provides more control)
 ```shell
