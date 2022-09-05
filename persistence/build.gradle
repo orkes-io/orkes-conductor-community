@@ -1,0 +1,31 @@
+dependencies {
+
+
+
+    implementation "com.netflix.conductor:conductor-common:${versions.conductorfork}"
+    implementation "com.netflix.conductor:conductor-core:${versions.conductorfork}"
+    compileOnly 'org.springframework.boot:spring-boot-starter'
+
+    implementation "redis.clients:jedis:${versions.revJedis}"
+
+    implementation "com.google.guava:guava:${versions.revGuava}"
+
+    //Object Mapper
+    implementation "com.fasterxml.jackson.core:jackson-databind"
+    implementation "com.fasterxml.jackson.core:jackson-core"
+
+    //In Memory redis
+    implementation "org.rarefiedredis.redis:redis-java:${versions.revRarefiedRedis}"
+
+    //In memory
+    implementation "com.jayway.jsonpath:json-path:2.4.0"
+
+
+    //Micrometer
+    implementation "io.micrometer:micrometer-core:1.7.5"
+
+    //spring
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.junit.vintage:junit-vintage-engine'
+
+}
