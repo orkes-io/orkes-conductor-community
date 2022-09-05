@@ -47,7 +47,6 @@ import io.orkes.conductor.metrics.MetricsCollector;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.extern.slf4j.Slf4j;
 
-import static com.netflix.conductor.core.utils.Utils.DECIDER_QUEUE;
 import static com.netflix.conductor.model.TaskModel.Status.SCHEDULED;
 
 @Component
@@ -57,10 +56,7 @@ public class OrkesWorkflowExecutor extends WorkflowExecutor {
 
     private static final LocalDateTime ORKES_EPOCH_TIME = LocalDateTime.of(2021, 1, 1, 0, 0);
 
-
     private final QueueDAO queueDAO;
-
-
 
     private final ExecutionDAOFacade orkesExecutionDAOFacade;
     private final SystemTaskRegistry systemTaskRegistry;

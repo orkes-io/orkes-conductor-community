@@ -22,7 +22,7 @@ dependencies {
     implementation "com.netflix.conductor:conductor-kafka:${versions.conductorfork}"
     implementation "com.netflix.conductor:conductor-metrics:${versions.conductorfork}"
 
-    implementation project(":orkes-conductor-redis-queues")
+    implementation "io.orkes.queues:orkes-conductor-queues:${versions.revOrkesQueues}"
     implementation project(":orkes-conductor-archive")
     implementation project(":orkes-conductor-persistence")
 

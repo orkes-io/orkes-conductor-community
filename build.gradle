@@ -28,7 +28,8 @@ ext {
             revOpenapi              : '1.6.11',
             revAwsSdk               : '1.12.153',
             revProtoBuf             : '3.13.0',
-            revRarefiedRedis        : '0.0.17'
+            revRarefiedRedis        : '0.0.17',
+            revOrkesQueues          : '1.0.0'
     ]
 }
 
@@ -51,6 +52,7 @@ subprojects {
 
     repositories {
         mavenCentral()
+        mavenLocal()
     }
 
     java {

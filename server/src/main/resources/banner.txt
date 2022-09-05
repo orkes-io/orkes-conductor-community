@@ -13,4 +13,4 @@
 |  `----.|  `--'  | |  |\   | |  '--'  ||  `--'  | |  `----.    |  |     |  `--'  | |  |\  \----.
  \______| \______/  |__| \__| |_______/  \______/   \______|    |__|      \______/  | _| `._____|
 
-Orkes Conductor Community Licensed
+Licensed under Orkes Conductor Community License

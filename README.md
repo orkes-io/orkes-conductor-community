@@ -47,22 +47,27 @@ docker volume create postgres
 docker volume create redis
 
 docker run --init -p 8080:8080 -p 1234:5000 --mount source=redis,target=/redis \
---mount source=postgres,target=/pgdata orkesio/orkes-conductor-community:latest
+--mount source=postgres,target=/pgdata orkesio/orkes-conductor-community-standalone:latest
 ```
 Navigate to http://localhost:1234 once the container starts to launch UI
 
 #### Server + UI Docker
 ```shell
-docker pull orkes-io/orkes-conductor-server:latest
+docker pull orkesio/orkes-conductor-community:latest
 ```
 >**Note** To use specific version of Conductor, replace `latest` with the release version
 > e.g. 
 > 
-> ```docker pull orkes-io/orkes-conductor-server:3.11.0```
+> ```docker pull orkes-io/orkes-conductor-community:3.11.0```
 
 #### Published Artifacts
 Server Jar is published on maven central at the following location:
 [TBD](http://orkes.io)
+
+#### Production Configuration Recommendations
+The container and server jar published comes with sensible defaults that works for most use cases.
+
+Please see [CONFIGURATION](CONFIGURATION.md) for details.
 
 ### Contributions
 We welcome community contributions and PRs to this repository.
