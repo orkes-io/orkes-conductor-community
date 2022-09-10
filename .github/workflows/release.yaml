@@ -31,7 +31,7 @@ jobs:
           export REL_VER=`echo ${VERSION:1}`
           echo "Release version is $REL_VER"
           echo "RELEASE_VERSION=$REL_VER" >> $GITHUB_ENV
-          ./gradlew -x test publish -Pversion=$REL_VER -PmavenCentral -Pusername=${{ secrets.SONATYPE_USERNAME }} -Ppassword=${{ secrets.SONATYPE_PASSWORD }}
+          ./gradlew publish -Pversion=$REL_VER -PmavenCentral -Pusername=${{ secrets.SONATYPE_USERNAME }} -Ppassword=${{ secrets.SONATYPE_PASSWORD }}
           echo "Building UI"
           ls -ltr server/build/libs
           docker/build-ui.sh
