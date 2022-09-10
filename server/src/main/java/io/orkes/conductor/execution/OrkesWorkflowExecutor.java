@@ -1,16 +1,16 @@
 /*
  * Copyright 2022 Orkes, Inc.
  * <p>
- * Licensed under the Orkes Community License (the "License"); you may not use this file except in compliance with
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  * <p>
- * https://github.com/orkes-io/licenses/blob/main/community/LICENSE.txt
+ * http://www.apache.org/licenses/LICENSE-2.0
  * <p>
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-package com.netflix.conductor.core.execution;
+package io.orkes.conductor.execution;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -19,6 +19,8 @@ import java.time.ZoneId;
 import java.util.Optional;
 import java.util.concurrent.*;
 
+import com.netflix.conductor.core.execution.DeciderService;
+import com.netflix.conductor.core.execution.WorkflowExecutor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Primary;
@@ -47,7 +49,6 @@ import io.orkes.conductor.metrics.MetricsCollector;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.extern.slf4j.Slf4j;
 
-import static com.netflix.conductor.core.utils.Utils.DECIDER_QUEUE;
 import static com.netflix.conductor.model.TaskModel.Status.SCHEDULED;
 
 @Component
@@ -57,10 +58,7 @@ public class OrkesWorkflowExecutor extends WorkflowExecutor {
 
     private static final LocalDateTime ORKES_EPOCH_TIME = LocalDateTime.of(2021, 1, 1, 0, 0);
 
-
     private final QueueDAO queueDAO;
-
-
 
     private final ExecutionDAOFacade orkesExecutionDAOFacade;
     private final SystemTaskRegistry systemTaskRegistry;
@@ -122,6 +120,7 @@ public class OrkesWorkflowExecutor extends WorkflowExecutor {
     }
 
     public void updateTask(TaskResult taskResult) {
+        log.info("Updating {}", taskResult);
         if (taskResult == null) {
             throw new RuntimeException("Task object is null");
         }

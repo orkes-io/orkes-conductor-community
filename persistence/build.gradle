@@ -2,8 +2,8 @@ dependencies {
 
 
 
-    implementation "com.netflix.conductor:conductor-common:${versions.conductorfork}"
-    implementation "com.netflix.conductor:conductor-core:${versions.conductorfork}"
+    implementation "com.netflix.conductor:conductor-common:${versions.revConductor}"
+    implementation "com.netflix.conductor:conductor-core:${versions.revConductor}"
     compileOnly 'org.springframework.boot:spring-boot-starter'
 
     implementation "redis.clients:jedis:${versions.revJedis}"

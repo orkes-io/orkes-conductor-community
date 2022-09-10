@@ -1,8 +1,8 @@
 dependencies {
 
-    implementation "com.netflix.conductor:conductor-common:${versions.conductorfork}"
-    implementation "com.netflix.conductor:conductor-core:${versions.conductorfork}"
-    implementation ("com.netflix.conductor:conductor-postgres-persistence:${versions.conductorfork}")
+    implementation "com.netflix.conductor:conductor-common:${versions.revConductor}"
+    implementation "com.netflix.conductor:conductor-core:${versions.revConductor}"
+    implementation ("com.netflix.conductor:conductor-postgres-persistence:${versions.revConductor}")
 
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'

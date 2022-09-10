@@ -6,25 +6,25 @@ jar {
 }
 dependencies {
 
-    implementation "com.netflix.conductor:conductor-common:${versions.conductorfork}"
-    implementation "com.netflix.conductor:conductor-core:${versions.conductorfork}"
-    implementation "com.netflix.conductor:conductor-redis-lock:${versions.conductorfork}"
-    implementation "com.netflix.conductor:conductor-grpc:${versions.conductorfork}"
-    implementation "com.netflix.conductor:conductor-rest:${versions.conductorfork}"
-    implementation "com.netflix.conductor:conductor-redis-concurrency-limit:${versions.conductorfork}"
+    implementation "com.netflix.conductor:conductor-common:${versions.revConductor}"
+    implementation "com.netflix.conductor:conductor-core:${versions.revConductor}"
+    implementation "com.netflix.conductor:conductor-redis-lock:${versions.revConductor}"
+    implementation "com.netflix.conductor:conductor-grpc:${versions.revConductor}"
+    implementation "com.netflix.conductor:conductor-rest:${versions.revConductor}"
+    implementation "com.netflix.conductor:conductor-redis-concurrency-limit:${versions.revConductor}"
 
-    implementation "com.netflix.conductor:conductor-http-task:${versions.conductorfork}"
-    implementation "com.netflix.conductor:conductor-awss3-storage:${versions.conductorfork}"
-    implementation "com.netflix.conductor:conductor-awssqs-event-queue:${versions.conductorfork}"
-    implementation "com.netflix.conductor:conductor-json-jq-task:${versions.conductorfork}"
-    implementation "com.netflix.conductor:conductor-amqp:${versions.conductorfork}"
-    implementation "com.netflix.conductor:conductor-nats:${versions.conductorfork}"
-    implementation "com.netflix.conductor:conductor-kafka:${versions.conductorfork}"
-    implementation "com.netflix.conductor:conductor-metrics:${versions.conductorfork}"
+    implementation "com.netflix.conductor:conductor-http-task:${versions.revConductor}"
+    implementation "com.netflix.conductor:conductor-awss3-storage:${versions.revConductor}"
+    implementation "com.netflix.conductor:conductor-awssqs-event-queue:${versions.revConductor}"
+    implementation "com.netflix.conductor:conductor-json-jq-task:${versions.revConductor}"
+    implementation "com.netflix.conductor:conductor-amqp:${versions.revConductor}"
+    implementation "com.netflix.conductor:conductor-nats:${versions.revConductor}"
+    implementation "com.netflix.conductor:conductor-kafka:${versions.revConductor}"
+    implementation "com.netflix.conductor:conductor-metrics:${versions.revConductor}"
 
-    implementation project(":orkes-conductor-redis-queues")
-    implementation project(":orkes-conductor-archive")
-    implementation project(":orkes-conductor-persistence")
+    implementation "io.orkes.queues:orkes-conductor-queues:${versions.revOrkesQueues}"
+    implementation project(":orkes-conductor-community-archive")
+    implementation project(":orkes-conductor-community-persistence")
 
     //aws
     implementation "com.amazonaws:aws-java-sdk-core:${versions.revAwsSdk}"

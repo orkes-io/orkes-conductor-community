@@ -9,7 +9,7 @@
             </Pattern>
         </layout>
     </appender>
-    <property name="LOG_FILE" value="${LOG_FILE}" />
+    <property name="LOG_FILE" value="${LOG_FILE:-server.log}" />
 
     <appender name="FileAppender"
               class="ch.qos.logback.core.rolling.RollingFileAppender">

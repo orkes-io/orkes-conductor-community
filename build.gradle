@@ -10,12 +10,12 @@ plugins {
 }
 
 ext {
-    group = 'io.orkes.queue'
+    group = 'io.orkes.conductor'
     appVersion = '0.0.1-SNAPSHOT'
     springBootVersion = '2.5.6'
 
     versions = [
-            conductorfork           : '3.10.7',
+            revConductor            : '3.10.7',
             revTestContainer        : '1.17.2',
             revGuava                : '30.0-jre',
             log4j                   : '2.17.1',
@@ -28,7 +28,8 @@ ext {
             revOpenapi              : '1.6.11',
             revAwsSdk               : '1.12.153',
             revProtoBuf             : '3.13.0',
-            revRarefiedRedis        : '0.0.17'
+            revRarefiedRedis        : '0.0.17',
+            revOrkesQueues          : '1.0.1'
     ]
 }
 
@@ -40,7 +41,7 @@ if (relVersion) {
 
 subprojects {
 
-    group = 'io.orkes.queue'
+    group = 'io.orkes.conductor'
     version = "${appVersion}"
 
     apply plugin: 'java'
@@ -51,6 +52,7 @@ subprojects {
 
     repositories {
         mavenCentral()
+        mavenLocal()
     }
 
     java {
@@ -132,8 +134,8 @@ subprojects {
                     }
                     licenses {
                         license {
-                            name = 'Orkes Community License'
-                            url = 'https://github.com/orkes-io/licenses/community/LICENSE.txt'
+                            name = 'Apache 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0'
                         }
                     }
                     developers {
