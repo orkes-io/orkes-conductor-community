@@ -23,8 +23,8 @@ dependencies {
     implementation "com.netflix.conductor:conductor-metrics:${versions.revConductor}"
 
     implementation "io.orkes.queues:orkes-conductor-queues:${versions.revOrkesQueues}"
-    implementation project(":orkes-conductor-community-archive")
-    implementation project(":orkes-conductor-community-persistence")
+    implementation project(":orkes-conductor-archive")
+    implementation project(":orkes-conductor-persistence")
 
     //aws
     implementation "com.amazonaws:aws-java-sdk-core:${versions.revAwsSdk}"

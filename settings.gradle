@@ -1,4 +1,4 @@
-rootProject.name = 'orkes-conductor-community'
+rootProject.name = 'orkes-conductor'
 include 'archive'
 include 'persistence'
 include 'server'
