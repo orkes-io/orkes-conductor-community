@@ -24,7 +24,7 @@ COPY docker/config/config.properties /app/config/config.properties
 COPY server/src/main/resources/banner.txt /app/config/banner.txt
 
 # JAR files
-COPY server/build/libs/orkes-conductor-server-boot.jar /app/libs/server.jar
+COPY server/build/libs/orkes-conductor-community-server-boot.jar /app/libs/server.jar
 
 # Server version
 #COPY assembled/libs/server-version.txt* /app/info

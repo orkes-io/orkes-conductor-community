@@ -12,10 +12,10 @@
  */
 package io.orkes.conductor.execution.tasks;
 
-import com.netflix.conductor.core.execution.tasks.WorkflowSystemTask;
 import org.springframework.stereotype.Component;
 
 import com.netflix.conductor.core.execution.WorkflowExecutor;
+import com.netflix.conductor.core.execution.tasks.WorkflowSystemTask;
 import com.netflix.conductor.model.TaskModel;
 import com.netflix.conductor.model.WorkflowModel;
 import com.netflix.conductor.tasks.http.HttpTask;

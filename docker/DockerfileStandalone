@@ -27,7 +27,7 @@ COPY docker/config/start_all.sh /app/start_all.sh
 COPY server/src/main/resources/banner.txt /app/config/banner.txt
 
 # JAR files
-COPY server/build/libs/orkes-conductor-server-boot.jar /app/libs/server.jar
+COPY server/build/libs/orkes-conductor-community-server-boot.jar /app/libs/server.jar
 
 RUN chmod +x /app/startup.sh
 RUN touch /app/logs/server.log
