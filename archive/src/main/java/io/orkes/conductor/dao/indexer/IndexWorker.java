@@ -17,6 +17,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import com.netflix.conductor.redis.dao.RedisExecutionDAO;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
@@ -46,7 +47,7 @@ public class IndexWorker {
 
     private final ArchiveDAO archiveDAO;
 
-    private final ExecutionDAO primaryExecDAO;
+    private final RedisExecutionDAO primaryExecDAO;
 
     private final MetricsCollector metricsCollector;
 
@@ -59,7 +60,7 @@ public class IndexWorker {
     public IndexWorker(
             QueueDAO queueDAO,
             ArchiveDAO execDAO,
-            ExecutionDAO primaryExecDAO,
+            RedisExecutionDAO primaryExecDAO,
             IndexWorkerProperties properties,
             MetricsCollector metricsCollector) {
         this.queueDAO = queueDAO;

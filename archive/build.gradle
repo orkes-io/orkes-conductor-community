@@ -1,5 +1,7 @@
 dependencies {
 
+    implementation project(":orkes-conductor-persistence")
+
     implementation "com.netflix.conductor:conductor-common:${versions.revConductor}"
     implementation "com.netflix.conductor:conductor-core:${versions.revConductor}"
     implementation ("com.netflix.conductor:conductor-postgres-persistence:${versions.revConductor}")

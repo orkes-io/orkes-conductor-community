@@ -19,6 +19,10 @@ import java.time.ZoneId;
 import java.util.Optional;
 import java.util.concurrent.*;
 
+import com.netflix.conductor.common.metadata.workflow.RerunWorkflowRequest;
+import com.netflix.conductor.dao.ExecutionDAO;
+import com.netflix.conductor.model.WorkflowModel;
+import com.netflix.conductor.redis.dao.RedisExecutionDAO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Primary;
@@ -64,6 +68,8 @@ public class OrkesWorkflowExecutor extends WorkflowExecutor {
     private final SystemTaskRegistry systemTaskRegistry;
     private final ExecutorService taskUpdateExecutor;
 
+    private final RedisExecutionDAO executionDAO;
+
     private final MetricsCollector metricsCollector;
 
     public OrkesWorkflowExecutor(
@@ -78,7 +84,7 @@ public class OrkesWorkflowExecutor extends WorkflowExecutor {
             @Lazy SystemTaskRegistry systemTaskRegistry,
             ParametersUtils parametersUtils,
             IDGenerator idGenerator,
-            MetricsCollector metricsCollector) {
+            RedisExecutionDAO executionDAO, MetricsCollector metricsCollector) {
         super(
                 deciderService,
                 metadataDAO,
@@ -95,6 +101,7 @@ public class OrkesWorkflowExecutor extends WorkflowExecutor {
         this.queueDAO = queueDAO;
         this.orkesExecutionDAOFacade = executionDAOFacade;
         this.systemTaskRegistry = systemTaskRegistry;
+        this.executionDAO = executionDAO;
         this.metricsCollector = metricsCollector;
 
         int threadPoolSize = Runtime.getRuntime().availableProcessors() * 10;
@@ -117,6 +124,20 @@ public class OrkesWorkflowExecutor extends WorkflowExecutor {
                         new ThreadFactoryBuilder().setNameFormat("task-update-thread-%d").build());
 
         log.info("OrkesWorkflowExecutor initialized");
+    }
+
+    @Override
+    public void retry(String workflowId, boolean resumeSubworkflowTasks) {
+        WorkflowModel workflowModel = orkesExecutionDAOFacade.getWorkflowModel(workflowId, true);
+        executionDAO.restoreWorkflow(workflowModel);
+        super.retry(workflowId, resumeSubworkflowTasks);
+    }
+
+    @Override
+    public String rerun(RerunWorkflowRequest request) {
+        WorkflowModel workflowModel = orkesExecutionDAOFacade.getWorkflowModel(request.getReRunFromWorkflowId(), true);
+        executionDAO.restoreWorkflow(workflowModel);
+        return super.rerun(request);
     }
 
     public void updateTask(TaskResult taskResult) {

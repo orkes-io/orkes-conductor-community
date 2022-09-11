@@ -92,6 +92,32 @@ public class RedisExecutionDAO extends BaseDynoDAO
         return dates;
     }
 
+    public void restoreWorkflow(WorkflowModel workflowModel) {
+        if(!workflowModel.getStatus().isTerminal()) {
+            throw new IllegalArgumentException("Workflow is in " + workflowModel.getStatus()+ " status.  " +
+                    "Only the workflow with terminal status can be restored");
+        }
+
+        boolean update = !workflowModel.getStatus().isTerminal();       //Update if not completed yet
+        //Bottoms up, first create tasks
+        restoreTasks(workflowModel.getWorkflowId(), workflowModel.getTasks());
+        //Then create a workflow
+        insertOrUpdateWorkflow(workflowModel, update);
+    }
+
+    private void restoreTasks(String workflowId, List<TaskModel> tasks) {
+        String workflowToTaskKey = nsKey(WORKFLOW_TO_TASKS, workflowId);
+        orkesJedisProxy.del(workflowToTaskKey);
+        for (TaskModel task : tasks) {
+
+            //Step 1: Add the task to the DB
+            updateTask(task);
+
+            //Step 2: Correlate the task to the workflow
+            correlateTaskToWorkflowInDS(task.getTaskId(), workflowId);
+        }
+    }
+
     @Override
     public List<TaskModel> getPendingTasksByWorkflow(String taskName, String workflowId) {
         List<TaskModel> tasks = new LinkedList<>();
