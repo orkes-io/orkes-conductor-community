@@ -53,6 +53,7 @@ import io.orkes.conductor.metrics.MetricsCollector;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.extern.slf4j.Slf4j;
 
+import static com.netflix.conductor.core.utils.Utils.DECIDER_QUEUE;
 import static com.netflix.conductor.model.TaskModel.Status.SCHEDULED;
 
 @Component
@@ -131,6 +132,7 @@ public class OrkesWorkflowExecutor extends WorkflowExecutor {
         WorkflowModel workflowModel = orkesExecutionDAOFacade.getWorkflowModel(workflowId, true);
         executionDAO.restoreWorkflow(workflowModel);
         super.retry(workflowId, resumeSubworkflowTasks);
+        queueDAO.setUnackTimeout(DECIDER_QUEUE, workflowId, 0);
     }
 
     @Override
@@ -285,7 +287,7 @@ public class OrkesWorkflowExecutor extends WorkflowExecutor {
         } catch (RejectedExecutionException ree) {
             metricsCollector.getCounter("task_update_deferred").increment();
             queueDAO.push(
-                    Utils.DECIDER_QUEUE,
+                    DECIDER_QUEUE,
                     taskResult.getWorkflowInstanceId(),
                     getWorkflowFIFOPriority(
                             taskResult.getWorkflowInstanceId(), task.getWorkflowPriority()),
