@@ -81,6 +81,13 @@ public class PostgresArchiveDAOConfiguration {
                 primaryExecutionDAO, archiveDAO, dynoQueueDAO, metricsCollector);
     }
 
+    @Bean
+    @Qualifier("primaryExecutionDAO")
+    @ConditionalOnProperty(name = "conductor.archive.db.enabled", havingValue = "true")
+    public ExecutionDAO getPrimaryExecutionDAO() {
+        return primaryExecutionDAO;
+    }
+
     @Bean(initMethod = "migrate", name = "flyway")
     @PostConstruct
     public Flyway flywayForPrimaryDb() {

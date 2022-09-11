@@ -12,25 +12,22 @@
  */
 package io.orkes.conductor.dao.indexer;
 
-import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
-import com.netflix.conductor.redis.dao.RedisExecutionDAO;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.stereotype.Component;
-
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.netflix.conductor.dao.ExecutionDAO;
 import com.netflix.conductor.dao.QueueDAO;
 import com.netflix.conductor.metrics.Monitors;
 import com.netflix.conductor.model.WorkflowModel;
-
 import io.orkes.conductor.dao.archive.ArchiveDAO;
 import io.orkes.conductor.metrics.MetricsCollector;
-
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
@@ -47,7 +44,7 @@ public class IndexWorker {
 
     private final ArchiveDAO archiveDAO;
 
-    private final RedisExecutionDAO primaryExecDAO;
+    private final ExecutionDAO primaryExecDAO;
 
     private final MetricsCollector metricsCollector;
 
@@ -60,7 +57,7 @@ public class IndexWorker {
     public IndexWorker(
             QueueDAO queueDAO,
             ArchiveDAO execDAO,
-            RedisExecutionDAO primaryExecDAO,
+            @Qualifier("primaryExecutionDAO") ExecutionDAO primaryExecDAO,
             IndexWorkerProperties properties,
             MetricsCollector metricsCollector) {
         this.queueDAO = queueDAO;
