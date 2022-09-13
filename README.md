@@ -34,7 +34,7 @@ Orkes Conductor is a fully compatible version of Netflix Conductor with **Orkes 
 
 ## Getting Started
 ### Docker
-Easiest way to run Conductor.  Each release is published as `orkes-io/orkes-conductor-community` docker images. 
+Easiest way to run Conductor.  Each release is published as `orkesio/orkes-conductor-community` docker images.
 
 #### Fully self-contained standalone server with all the dependencies
 Container image useful for local development and testing.  
@@ -64,7 +64,7 @@ docker pull orkesio/orkes-conductor-community:latest
 >**Note** To use specific version of Conductor, replace `latest` with the release version
 > e.g. 
 > 
-> ```docker pull orkes-io/orkes-conductor-community:latest```
+> ```docker pull orkesio/orkes-conductor-community:latest```
 
 ### Published Artifacts
 
