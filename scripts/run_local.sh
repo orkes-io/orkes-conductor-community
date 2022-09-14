@@ -21,7 +21,7 @@ docker volume create postgres
 docker volume create redis
 
 docker run --init -p $SERVER_PORT:8080 -p $UI_PORT:5000 --mount source=redis,target=/redis \
---mount source=postgres,target=/pgdata orkesio/orkes-conductor-standalone:latest
+--mount source=postgres,target=/pgdata orkesio/orkes-conductor-community-standalone:latest
 
 
 
