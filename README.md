@@ -5,7 +5,7 @@ Orkes Conductor is a fully compatible version of Netflix Conductor with **Orkes 
 [![CI](https://img.shields.io/badge/license-orkes%20community%20license-green)](https://github.com/orkes-io/licenses/blob/main/community/LICENSE.txt)
 
 
-<pre>
+```
   ______   .______       __  ___  _______     _______.
  /  __  \  |   _  \     |  |/  / |   ____|   /       |
 |  |  |  | |  |_)  |    |  '  /  |  |__     |   (----`
@@ -19,7 +19,7 @@ Orkes Conductor is a fully compatible version of Netflix Conductor with **Orkes 
 |  |     |  |  |  | |  . `  | |  |  |  ||  |  |  | |  |         |  |     |  |  |  | |      /     
 |  `----.|  `--'  | |  |\   | |  '--'  ||  `--'  | |  `----.    |  |     |  `--'  | |  |\  \----.
  \______| \______/  |__| \__| |_______/  \______/   \______|    |__|      \______/  | _| `._____| 
-</pre>
+```
 
 ## Stack
 1. **Redis** as the primary store for running workflows
