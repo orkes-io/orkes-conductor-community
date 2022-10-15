@@ -36,7 +36,7 @@ import com.netflix.conductor.metrics.Monitors;
 import com.netflix.conductor.model.TaskModel;
 import com.netflix.conductor.model.WorkflowModel;
 
-import io.orkes.conductor.execution.OrkesWorkflowExecutor;
+import com.netflix.conductor.core.execution.OrkesWorkflowExecutor;
 import io.orkes.conductor.metrics.MetricsCollector;
 
 import com.google.common.util.concurrent.Uninterruptibles;
