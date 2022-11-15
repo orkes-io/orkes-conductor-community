@@ -22,9 +22,9 @@ Orkes Conductor is a fully compatible version of Netflix Conductor with **Orkes 
 ```
 
 ## Stack
-1. **Redis** as the primary store for running workflows
-2. **Postgres** for storing completed workflows and indexing enabling full text search
-3. **[Orkes-Queues](https://github.com/orkes-io/orkes-queues)** Redis based queues that improve upon dyno-queues and providers higher performance and are built from ground up to support Redis standalone and cluster mode
+1. **Redis** is the primary store for running workflows.
+2. **Postgres** for storing completed workflows and indexing enabling full text search.
+3. **[Orkes-Queues](https://github.com/orkes-io/orkes-queues)** - Redis-based queues that improve upon dyno-queues and providers higher performance and are built from the ground up to support Redis standalone and cluster mode
 ### Dependency Versions
 
 | Dependency                              | Supported Version |
@@ -34,17 +34,17 @@ Orkes Conductor is a fully compatible version of Netflix Conductor with **Orkes 
 
 ## Getting Started
 ### Docker
-Easiest way to run Conductor.  Each release is published as `orkesio/orkes-conductor-community` docker images.
+Docker is the easiest way to run Conductor.  Each release is published as `orkesio/orkes-conductor-community` docker images.
 
 #### Fully self-contained standalone server with all the dependencies
-Container image useful for local development and testing.  
->**Note** self-contained docker image shouldn't be used in production environment.
+Container images are useful for local development and testing.  
+>**Note**: Self-contained docker image shouldn't be used in the production environment.
 
-#### Simple self-contained script to launch docker image
+#### Simple self-contained script to launch the docker image
 ```shell
 curl https://raw.githubusercontent.com/orkes-io/orkes-conductor-community/main/scripts/run_local.sh | sh
 ```
-#### Using `docker run` manually (provides more control)
+#### Using `docker run` manually (Provides more control)
 ```shell
 
 # Create volumes for persistent stores
@@ -55,13 +55,13 @@ docker volume create redis
 docker run --init -p 8080:8080 -p 1234:5000 --mount source=redis,target=/redis \
 --mount source=postgres,target=/pgdata orkesio/orkes-conductor-community-standalone:latest
 ```
-Navigate to http://localhost:1234 once the container starts to launch UI
+Navigate to http://localhost:1234 once the container starts to launch UI.
 
 #### Server + UI Docker
 ```shell
 docker pull orkesio/orkes-conductor-community:latest
 ```
->**Note** To use specific version of Conductor, replace `latest` with the release version
+>**Note**: To use a specific version of Conductor, replace `latest` with the release version.
 > e.g. 
 > 
 > ```docker pull orkesio/orkes-conductor-community:latest```
@@ -78,9 +78,7 @@ docker pull orkesio/orkes-conductor-community:latest
 | archive     | `implementation 'io.orkes.conductor:orkes-conductor-community-archive:VERSION'`     |
 
 #### Production Configuration Recommendations
-The container and server jar published comes with sensible defaults that works for most use cases.
-
-Please see [CONFIGURATION](CONFIGURATION.md) for details.
+The container and server jar published come with sensible defaults that work for most use cases.
 
 ### Contributions
 We welcome community contributions and PRs to this repository.
