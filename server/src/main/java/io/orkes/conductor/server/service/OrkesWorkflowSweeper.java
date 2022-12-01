@@ -26,6 +26,7 @@ import org.springframework.stereotype.Component;
 import com.netflix.conductor.core.LifecycleAwareComponent;
 import com.netflix.conductor.core.config.ConductorProperties;
 import com.netflix.conductor.core.exception.NotFoundException;
+import com.netflix.conductor.core.execution.OrkesWorkflowExecutor;
 import com.netflix.conductor.core.execution.tasks.SystemTaskRegistry;
 import com.netflix.conductor.core.execution.tasks.WorkflowSystemTask;
 import com.netflix.conductor.core.utils.QueueUtils;
@@ -36,7 +37,6 @@ import com.netflix.conductor.metrics.Monitors;
 import com.netflix.conductor.model.TaskModel;
 import com.netflix.conductor.model.WorkflowModel;
 
-import io.orkes.conductor.execution.OrkesWorkflowExecutor;
 import io.orkes.conductor.metrics.MetricsCollector;
 
 import com.google.common.util.concurrent.Uninterruptibles;
