@@ -49,8 +49,8 @@ public class OrkesRestTemplateProvider implements RestTemplateProvider {
     private final int defaultConnectTimeout;
 
     @Autowired
-    public OrkesRestTemplateProvider(@Value("${conductor.tasks.http.readTimeout:150ms}") Duration readTimeout,
-                                     @Value("${conductor.tasks.http.connectTimeout:100ms}") Duration connectTimeout,
+    public OrkesRestTemplateProvider(@Value("${conductor.tasks.http.readTimeout:250ms}") Duration readTimeout,
+                                     @Value("${conductor.tasks.http.connectTimeout:250ms}") Duration connectTimeout,
                                      Optional<ClientHttpRequestInterceptor> interceptor) {
         this.defaultReadTimeout = (int) readTimeout.toMillis();
         this.defaultConnectTimeout = (int) connectTimeout.toMillis();
