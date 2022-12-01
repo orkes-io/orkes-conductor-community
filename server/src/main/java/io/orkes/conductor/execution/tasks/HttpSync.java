@@ -35,6 +35,7 @@ public class HttpSync extends WorkflowSystemTask {
     public HttpSync(RestTemplateProvider restTemplateProvider, ObjectMapper objectMapper) {
         super(TASK_TYPE_HTTP);
         httpTask = new HttpTask(restTemplateProvider, objectMapper);
+        log.info("Using {}", restTemplateProvider);
     }
 
     @SuppressWarnings("unchecked")

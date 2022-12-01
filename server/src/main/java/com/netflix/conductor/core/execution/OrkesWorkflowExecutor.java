@@ -66,10 +66,7 @@ public class OrkesWorkflowExecutor extends WorkflowExecutor {
     private final ExecutionDAOFacade orkesExecutionDAOFacade;
     private final SystemTaskRegistry systemTaskRegistry;
     private final ExecutorService taskUpdateExecutor;
-
     private final RedisExecutionDAO executionDAO;
-
-    private final MetricsCollector metricsCollector;
 
     public OrkesWorkflowExecutor(
             DeciderService deciderService,
@@ -83,8 +80,7 @@ public class OrkesWorkflowExecutor extends WorkflowExecutor {
             @Lazy SystemTaskRegistry systemTaskRegistry,
             ParametersUtils parametersUtils,
             IDGenerator idGenerator,
-            RedisExecutionDAO executionDAO,
-            MetricsCollector metricsCollector) {
+            RedisExecutionDAO executionDAO) {
         super(
                 deciderService,
                 metadataDAO,
@@ -102,7 +98,6 @@ public class OrkesWorkflowExecutor extends WorkflowExecutor {
         this.orkesExecutionDAOFacade = executionDAOFacade;
         this.systemTaskRegistry = systemTaskRegistry;
         this.executionDAO = executionDAO;
-        this.metricsCollector = metricsCollector;
 
         int threadPoolSize = Runtime.getRuntime().availableProcessors() * 10;
         this.taskUpdateExecutor =
@@ -125,6 +120,8 @@ public class OrkesWorkflowExecutor extends WorkflowExecutor {
 
         log.info("OrkesWorkflowExecutor initialized");
     }
+
+
 
     @Override
     public void retry(String workflowId, boolean resumeSubworkflowTasks) {

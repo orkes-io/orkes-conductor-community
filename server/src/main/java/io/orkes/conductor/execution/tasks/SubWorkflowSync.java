@@ -29,8 +29,6 @@ import static com.netflix.conductor.common.metadata.tasks.TaskType.TASK_TYPE_SUB
 @Slf4j
 public class SubWorkflowSync extends WorkflowSystemTask {
 
-    private static final String SUB_WORKFLOW_ID = "subWorkflowId";
-
     private final SubWorkflow subWorkflow;
     private final ObjectMapper objectMapper;
 
