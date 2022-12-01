@@ -26,6 +26,8 @@ dependencies {
     implementation project(":orkes-conductor-archive")
     implementation project(":orkes-conductor-persistence")
 
+    implementation 'io.orkes.conductor:orkes-conductor-common-protos:0.9.2'
+
     //aws
     implementation "com.amazonaws:aws-java-sdk-core:${versions.revAwsSdk}"
 
