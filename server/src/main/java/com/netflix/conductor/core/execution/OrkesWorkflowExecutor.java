@@ -1,10 +1,10 @@
 /*
  * Copyright 2022 Orkes, Inc.
  * <p>
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * Licensed under the Orkes Community License (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://github.com/orkes-io/licenses/blob/main/community/LICENSE.txt
  * <p>
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
@@ -47,7 +47,6 @@ import com.netflix.conductor.redis.dao.RedisExecutionDAO;
 import com.netflix.conductor.service.ExecutionLockService;
 
 import io.orkes.conductor.id.TimeBasedUUIDGenerator;
-import io.orkes.conductor.metrics.MetricsCollector;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.extern.slf4j.Slf4j;
@@ -120,8 +119,6 @@ public class OrkesWorkflowExecutor extends WorkflowExecutor {
 
         log.info("OrkesWorkflowExecutor initialized");
     }
-
-
 
     @Override
     public void retry(String workflowId, boolean resumeSubworkflowTasks) {
