@@ -66,6 +66,19 @@ docker pull orkesio/orkes-conductor-community:latest
 > 
 > ```docker pull orkesio/orkes-conductor-community:latest```
 
+#### Specifying Custom properties
+Custom property file can be given using --env-file option in docker command.
+```shell
+docker run --env-file config/config.properties --init -p 8080:8080 -p 1234:5000 orkesio/orkes-conductor-community:latest
+```
+In case postgres and redis running in docker locally,
+1. Start postgres and redis container with name as postgres and redis respectively.
+2. Change redis and postgres configuration in application.properties. Container ipaddress can be found using [docker inspect](https://docs.docker.com/engine/reference/commandline/inspect/) 
+3. Execute command
+```shell
+docker run --env-file application.properties --init -p 8080:8080 -p 1234:5000 --link postgres:postgres --link redis:redis orkesio/orkes-conductor-community:latest
+```
+
 ### Published Artifacts
 
 * **Group:** `io.orkes.conductor`
