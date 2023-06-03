@@ -6,7 +6,6 @@ RUN apk add nginx
 RUN apk add coreutils
 RUN apk add openjdk11
 RUN apk add redis
-RUN apk add coreutils
 RUN apk add postgresql14
 
 # Make app folders
