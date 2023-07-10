@@ -17,12 +17,15 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.stereotype.Component;
+
 import redis.clients.jedis.BitPosParams;
 import redis.clients.jedis.GeoCoordinate;
 import redis.clients.jedis.GeoRadiusResponse;
 import redis.clients.jedis.GeoUnit;
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPoolAbstract;
+import redis.clients.jedis.JedisSentinelPool;
 import redis.clients.jedis.ListPosition;
 import redis.clients.jedis.ScanParams;
 import redis.clients.jedis.ScanResult;
@@ -34,17 +37,18 @@ import redis.clients.jedis.StreamGroupInfo;
 import redis.clients.jedis.StreamInfo;
 import redis.clients.jedis.StreamPendingEntry;
 import redis.clients.jedis.Tuple;
-import redis.clients.jedis.commands.JedisCommands;
 import redis.clients.jedis.params.GeoRadiusParam;
 import redis.clients.jedis.params.SetParams;
 import redis.clients.jedis.params.ZAddParams;
 import redis.clients.jedis.params.ZIncrByParams;
 
-public class JedisSentinel implements JedisCommands {
+@Component
+@ConditionalOnProperty(name = "conductor.db.type", havingValue = "redis_sentinel")
+public class JedisSentinel implements OrkesJedisCommands {
 
-    private final JedisPoolAbstract jedisPool;
+    private final JedisSentinelPool jedisPool;
 
-    public JedisSentinel(JedisPoolAbstract jedisPool) {
+    public JedisSentinel(JedisSentinelPool jedisPool) {
         this.jedisPool = jedisPool;
     }
 
@@ -1271,6 +1275,20 @@ public class JedisSentinel implements JedisCommands {
     public List<StreamConsumersInfo> xinfoConsumers(String key, String group) {
         try (Jedis jedis = jedisPool.getResource()) {
             return jedis.xinfoConsumers(key, group);
+        }
+    }
+
+    @Override
+    public String set(byte[] key, byte[] value) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.set(key, value);
+        }
+    }
+
+    @Override
+    public byte[] getBytes(byte[] key) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.get(key);
         }
     }
 }

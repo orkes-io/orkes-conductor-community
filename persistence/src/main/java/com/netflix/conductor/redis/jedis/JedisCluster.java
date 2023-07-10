@@ -19,6 +19,9 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.stereotype.Component;
+
 import redis.clients.jedis.BitPosParams;
 import redis.clients.jedis.GeoCoordinate;
 import redis.clients.jedis.GeoRadiusResponse;
@@ -34,13 +37,14 @@ import redis.clients.jedis.StreamGroupInfo;
 import redis.clients.jedis.StreamInfo;
 import redis.clients.jedis.StreamPendingEntry;
 import redis.clients.jedis.Tuple;
-import redis.clients.jedis.commands.JedisCommands;
 import redis.clients.jedis.params.GeoRadiusParam;
 import redis.clients.jedis.params.SetParams;
 import redis.clients.jedis.params.ZAddParams;
 import redis.clients.jedis.params.ZIncrByParams;
 
-public class JedisCluster implements JedisCommands {
+@Component
+@ConditionalOnProperty(name = "conductor.db.type", havingValue = "redis_cluster")
+public class JedisCluster implements OrkesJedisCommands {
 
     private final redis.clients.jedis.JedisCluster jedisCluster;
 
@@ -949,5 +953,15 @@ public class JedisCluster implements JedisCommands {
     @Override
     public List<StreamConsumersInfo> xinfoConsumers(String key, String group) {
         return null;
+    }
+
+    @Override
+    public String set(byte[] key, byte[] value) {
+        return jedisCluster.set(key, value);
+    }
+
+    @Override
+    public byte[] getBytes(byte[] key) {
+        return jedisCluster.get(key);
     }
 }
