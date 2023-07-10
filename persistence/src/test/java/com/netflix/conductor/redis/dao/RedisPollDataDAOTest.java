@@ -26,6 +26,7 @@ import com.netflix.conductor.dao.PollDataDAO;
 import com.netflix.conductor.dao.PollDataDAOTest;
 import com.netflix.conductor.redis.config.RedisProperties;
 import com.netflix.conductor.redis.jedis.JedisMock;
+import com.netflix.conductor.redis.jedis.JedisStandalone;
 import com.netflix.conductor.redis.jedis.OrkesJedisProxy;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -49,7 +50,7 @@ public class RedisPollDataDAOTest extends PollDataDAOTest {
         when(properties.getTaskDefCacheRefreshInterval()).thenReturn(Duration.ofSeconds(60));
         JedisPool jedisPool = mock(JedisPool.class);
         when(jedisPool.getResource()).thenReturn(new JedisMock());
-        OrkesJedisProxy orkesJedisProxy = new OrkesJedisProxy(jedisPool);
+        OrkesJedisProxy orkesJedisProxy = new OrkesJedisProxy(new JedisStandalone(jedisPool));
 
         redisPollDataDAO =
                 new RedisPollDataDAO(
