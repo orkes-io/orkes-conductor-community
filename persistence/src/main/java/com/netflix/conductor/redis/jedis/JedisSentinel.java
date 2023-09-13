@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Orkes, Inc.
+ * Copyright 2023 Orkes, Inc.
  * <p>
  * Licensed under the Orkes Community License (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -17,28 +17,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import redis.clients.jedis.BitPosParams;
-import redis.clients.jedis.GeoCoordinate;
-import redis.clients.jedis.GeoRadiusResponse;
-import redis.clients.jedis.GeoUnit;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPoolAbstract;
-import redis.clients.jedis.ListPosition;
-import redis.clients.jedis.ScanParams;
-import redis.clients.jedis.ScanResult;
-import redis.clients.jedis.SortingParams;
-import redis.clients.jedis.StreamConsumersInfo;
-import redis.clients.jedis.StreamEntry;
-import redis.clients.jedis.StreamEntryID;
-import redis.clients.jedis.StreamGroupInfo;
-import redis.clients.jedis.StreamInfo;
-import redis.clients.jedis.StreamPendingEntry;
-import redis.clients.jedis.Tuple;
+import redis.clients.jedis.*;
 import redis.clients.jedis.commands.JedisCommands;
-import redis.clients.jedis.params.GeoRadiusParam;
-import redis.clients.jedis.params.SetParams;
-import redis.clients.jedis.params.ZAddParams;
-import redis.clients.jedis.params.ZIncrByParams;
+import redis.clients.jedis.params.*;
+import redis.clients.jedis.resps.KeyedListElement;
+import redis.clients.jedis.resps.LCSMatchResult;
 
 public class JedisSentinel implements JedisCommands {
 
@@ -66,6 +49,269 @@ public class JedisSentinel implements JedisCommands {
     public String get(String key) {
         try (Jedis jedis = jedisPool.getResource()) {
             return jedis.get(key);
+        }
+    }
+
+    @Override
+    public String getDel(String key) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.getDel(key);
+        }
+    }
+
+    @Override
+    public String getEx(String key, GetExParams params) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.getEx(key, params);
+        }
+    }
+
+    @Override
+    public String restore(String key, long ttl, byte[] serializedValue) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.restore(key, ttl, serializedValue);
+        }
+    }
+
+    @Override
+    public String restore(String key, long ttl, byte[] serializedValue, RestoreParams params) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.restore(key, ttl, serializedValue, params);
+        }
+    }
+
+    @Override
+    public Long expire(String key, long seconds) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.expire(key, seconds);
+        }
+    }
+
+    @Override
+    public String hrandfield(String key) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.hrandfield(key);
+        }
+    }
+
+    @Override
+    public List<String> hrandfield(String key, long count) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.hrandfield(key, count);
+        }
+    }
+
+    @Override
+    public Map<String, String> hrandfieldWithValues(String key, long count) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.hrandfieldWithValues(key, count);
+        }
+    }
+
+    @Override
+    public List<String> lpop(String key, int count) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.lpop(key, count);
+        }
+    }
+
+    @Override
+    public Long lpos(String key, String element) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.lpos(key, element);
+        }
+    }
+
+    @Override
+    public Long lpos(String key, String element, LPosParams params) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.lpos(key, element, params);
+        }
+    }
+
+    @Override
+    public List<Long> lpos(String key, String element, LPosParams params, long count) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.lpos(key, element, params, count);
+        }
+    }
+
+    @Override
+    public String setex(String key, long seconds, String value) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.setex(key, seconds, value);
+        }
+    }
+
+    @Override
+    public List<String> rpop(String key, int count) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.rpop(key, count);
+        }
+    }
+
+    @Override
+    public List<Boolean> smismember(String key, String... members) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.smismember(key, members);
+        }
+    }
+
+    @Override
+    public Double zaddIncr(String key, double score, String member, ZAddParams params) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.zaddIncr(key, score, member, params);
+        }
+    }
+
+    @Override
+    public String zrandmember(String key) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.zrandmember(key);
+        }
+    }
+
+    @Override
+    public Set<String> zrandmember(String key, long count) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.zrandmember(key, count);
+        }
+    }
+
+    @Override
+    public Set<Tuple> zrandmemberWithScores(String key, long count) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.zrandmemberWithScores(key, count);
+        }
+    }
+
+    @Override
+    public List<Double> zmscore(String key, String... members) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.zmscore(key, members);
+        }
+    }
+
+    @Override
+    public KeyedListElement blpop(double timeout, String key) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.blpop(timeout, key);
+        }
+    }
+
+    @Override
+    public KeyedListElement brpop(double timeout, String key) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.brpop(timeout, key);
+        }
+    }
+
+    @Override
+    public Long geoadd(
+            String key, GeoAddParams params, Map<String, GeoCoordinate> memberCoordinateMap) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.geoadd(key, params, memberCoordinateMap);
+        }
+    }
+
+    @Override
+    public StreamEntryID xadd(String key, Map<String, String> hash, XAddParams params) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.xadd(key, hash, params);
+        }
+    }
+
+    @Override
+    public List<StreamEntry> xrange(String key, StreamEntryID start, StreamEntryID end) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.xrange(key, start, end);
+        }
+    }
+
+    @Override
+    public List<StreamEntry> xrevrange(String key, StreamEntryID end, StreamEntryID start) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.xrevrange(key, end, start);
+        }
+    }
+
+    @Override
+    public StreamPendingSummary xpending(String key, String groupname) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.xpending(key, groupname);
+        }
+    }
+
+    @Override
+    public List<StreamPendingEntry> xpending(String key, String groupname, XPendingParams params) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.xpending(key, groupname, params);
+        }
+    }
+
+    @Override
+    public long xtrim(String key, XTrimParams params) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.xtrim(key, params);
+        }
+    }
+
+    @Override
+    public List<StreamEntry> xclaim(
+            String key,
+            String group,
+            String consumername,
+            long minIdleTime,
+            XClaimParams params,
+            StreamEntryID... ids) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.xclaim(key, group, consumername, minIdleTime, params, ids);
+        }
+    }
+
+    @Override
+    public List<StreamEntryID> xclaimJustId(
+            String key,
+            String group,
+            String consumername,
+            long minIdleTime,
+            XClaimParams params,
+            StreamEntryID... ids) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.xclaimJustId(key, group, consumername, minIdleTime, params, ids);
+        }
+    }
+
+    @Override
+    public Entry<StreamEntryID, List<StreamEntry>> xautoclaim(
+            String key,
+            String group,
+            String consumerName,
+            long minIdleTime,
+            StreamEntryID start,
+            XAutoClaimParams params) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.xautoclaim(key, group, consumerName, minIdleTime, start, params);
+        }
+    }
+
+    @Override
+    public Entry<StreamEntryID, List<StreamEntryID>> xautoclaimJustId(
+            String key,
+            String group,
+            String consumerName,
+            long minIdleTime,
+            StreamEntryID start,
+            XAutoClaimParams params) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.xautoclaimJustId(key, group, consumerName, minIdleTime, start, params);
+        }
+    }
+
+    @Override
+    public LCSMatchResult strAlgoLCSStrings(String strA, String strB, StrAlgoLCSParams params) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.strAlgoLCSStrings(strA, strB, params);
         }
     }
 
@@ -1271,6 +1517,13 @@ public class JedisSentinel implements JedisCommands {
     public List<StreamConsumersInfo> xinfoConsumers(String key, String group) {
         try (Jedis jedis = jedisPool.getResource()) {
             return jedis.xinfoConsumers(key, group);
+        }
+    }
+
+    @Override
+    public String restoreReplace(String key, long ttl, byte[] serializedValue) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.restoreReplace(key, ttl, serializedValue);
         }
     }
 }

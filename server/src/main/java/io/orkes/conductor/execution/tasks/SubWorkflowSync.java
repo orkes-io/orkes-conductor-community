@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import com.netflix.conductor.core.execution.WorkflowExecutor;
 import com.netflix.conductor.core.execution.tasks.SubWorkflow;
 import com.netflix.conductor.core.execution.tasks.WorkflowSystemTask;
+import com.netflix.conductor.core.operation.StartWorkflowOperation;
 import com.netflix.conductor.model.TaskModel;
 import com.netflix.conductor.model.WorkflowModel;
 
@@ -30,15 +31,13 @@ import static com.netflix.conductor.common.metadata.tasks.TaskType.TASK_TYPE_SUB
 public class SubWorkflowSync extends WorkflowSystemTask {
 
     private final SubWorkflow subWorkflow;
-    private final ObjectMapper objectMapper;
 
-    public SubWorkflowSync(ObjectMapper objectMapper) {
+    public SubWorkflowSync(
+            ObjectMapper objectMapper, StartWorkflowOperation startWorkflowOperation) {
         super(TASK_TYPE_SUB_WORKFLOW);
-        this.subWorkflow = new SubWorkflow(objectMapper);
-        this.objectMapper = objectMapper;
+        this.subWorkflow = new SubWorkflow(objectMapper, startWorkflowOperation);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void start(WorkflowModel workflow, TaskModel task, WorkflowExecutor workflowExecutor) {
         subWorkflow.start(workflow, task, workflowExecutor);

@@ -1,4 +1,4 @@
-FROM alpine:3.16.2
+FROM alpine:3.18.3
 MAINTAINER Orkes Inc <builds@orkes.io>
 
 # Install software required to run conductor stack

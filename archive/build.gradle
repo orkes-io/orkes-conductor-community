@@ -43,7 +43,8 @@ dependencies {
     testImplementation "org.testcontainers:postgresql:${versions.revTestContainer}"
 
     //Fake data generator
-    testImplementation "com.github.javafaker:javafaker:1.0.2"
+    testImplementation ('com.github.javafaker:javafaker:1.0.2') { exclude module: 'snakeyaml' }
+//    testImplementation group: 'org.yaml', name: 'snakeyaml', version: '2.2'
 }
 
 test {

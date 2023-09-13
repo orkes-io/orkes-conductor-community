@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Orkes, Inc.
+ * Copyright 2023 Orkes, Inc.
  * <p>
  * Licensed under the Orkes Community License (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -45,6 +45,7 @@ public class InMemoryRedisConfiguration {
 
     @Bean
     public JedisCommands jedisCommands() {
+        //noinspection SpringConfigurationProxyMethods
         return new JedisStandalone(jedisPool());
     }
 
@@ -62,6 +63,7 @@ public class InMemoryRedisConfiguration {
     @Bean
     public OrkesJedisProxy OrkesJedisProxy() {
         System.out.println("OrkesJedisProxy created");
+        //noinspection SpringConfigurationProxyMethods
         return new OrkesJedisProxy(jedisPool());
     }
 }

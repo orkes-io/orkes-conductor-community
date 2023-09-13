@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Orkes, Inc.
+ * Copyright 2023 Orkes, Inc.
  * <p>
  * Licensed under the Orkes Community License (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -20,28 +20,11 @@ import java.util.function.Function;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
-import redis.clients.jedis.BitPosParams;
-import redis.clients.jedis.GeoCoordinate;
-import redis.clients.jedis.GeoRadiusResponse;
-import redis.clients.jedis.GeoUnit;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.ListPosition;
-import redis.clients.jedis.ScanParams;
-import redis.clients.jedis.ScanResult;
-import redis.clients.jedis.SortingParams;
-import redis.clients.jedis.StreamConsumersInfo;
-import redis.clients.jedis.StreamEntry;
-import redis.clients.jedis.StreamEntryID;
-import redis.clients.jedis.StreamGroupInfo;
-import redis.clients.jedis.StreamInfo;
-import redis.clients.jedis.StreamPendingEntry;
-import redis.clients.jedis.Tuple;
+import redis.clients.jedis.*;
 import redis.clients.jedis.commands.JedisCommands;
-import redis.clients.jedis.params.GeoRadiusParam;
-import redis.clients.jedis.params.SetParams;
-import redis.clients.jedis.params.ZAddParams;
-import redis.clients.jedis.params.ZIncrByParams;
+import redis.clients.jedis.params.*;
+import redis.clients.jedis.resps.KeyedListElement;
+import redis.clients.jedis.resps.LCSMatchResult;
 
 /** A {@link JedisCommands} implementation that delegates to {@link JedisPool}. */
 @Component
@@ -478,6 +461,212 @@ public class JedisStandalone implements JedisCommands {
     @Override
     public Tuple zpopmin(String key) {
         return executeInJedis(jedis -> jedis.zpopmin(key));
+    }
+
+    @Override
+    public String getDel(String key) {
+        return executeInJedis(jedis -> jedis.getDel(key));
+    }
+
+    @Override
+    public String getEx(String key, GetExParams params) {
+        return executeInJedis(jedis -> jedis.getEx(key, params));
+    }
+
+    @Override
+    public String restore(String key, long ttl, byte[] serializedValue) {
+        return executeInJedis(jedis -> jedis.restore(key, ttl, serializedValue));
+    }
+
+    @Override
+    public String restoreReplace(String key, long ttl, byte[] serializedValue) {
+        return executeInJedis(jedis -> jedis.restoreReplace(key, ttl, serializedValue));
+    }
+
+    @Override
+    public String restore(String key, long ttl, byte[] serializedValue, RestoreParams params) {
+        return executeInJedis(jedis -> jedis.restore(key, ttl, serializedValue, params));
+    }
+
+    @Override
+    public Long expire(String key, long seconds) {
+        return executeInJedis(jedis -> jedis.expire(key, seconds));
+    }
+
+    @Override
+    public String setex(String key, long seconds, String value) {
+        return executeInJedis(jedis -> jedis.setex(key, seconds, value));
+    }
+
+    @Override
+    public String hrandfield(String key) {
+        return executeInJedis(jedis -> jedis.hrandfield(key));
+    }
+
+    @Override
+    public List<String> hrandfield(String key, long count) {
+        return executeInJedis(jedis -> jedis.hrandfield(key, count));
+    }
+
+    @Override
+    public Map<String, String> hrandfieldWithValues(String key, long count) {
+        return executeInJedis(jedis -> jedis.hrandfieldWithValues(key, count));
+    }
+
+    @Override
+    public List<String> lpop(String key, int count) {
+        return executeInJedis(jedis -> jedis.lpop(key, count));
+    }
+
+    @Override
+    public Long lpos(String key, String element) {
+        return executeInJedis(jedis -> jedis.lpos(key, element));
+    }
+
+    @Override
+    public Long lpos(String key, String element, LPosParams params) {
+        return executeInJedis(jedis -> jedis.lpos(key, element, params));
+    }
+
+    @Override
+    public List<Long> lpos(String key, String element, LPosParams params, long count) {
+        return executeInJedis(jedis -> jedis.lpos(key, element, params, count));
+    }
+
+    @Override
+    public List<String> rpop(String key, int count) {
+        return executeInJedis(jedis -> jedis.rpop(key, count));
+    }
+
+    @Override
+    public List<Boolean> smismember(String key, String... members) {
+        return executeInJedis(jedis -> jedis.smismember(key, members));
+    }
+
+    @Override
+    public Double zaddIncr(String key, double score, String member, ZAddParams params) {
+        return executeInJedis(jedis -> jedis.zaddIncr(key, score, member, params));
+    }
+
+    @Override
+    public String zrandmember(String key) {
+        return executeInJedis(jedis -> jedis.zrandmember(key));
+    }
+
+    @Override
+    public Set<String> zrandmember(String key, long count) {
+        return executeInJedis(jedis -> jedis.zrandmember(key, count));
+    }
+
+    @Override
+    public Set<Tuple> zrandmemberWithScores(String key, long count) {
+        return executeInJedis(jedis -> jedis.zrandmemberWithScores(key, count));
+    }
+
+    @Override
+    public List<Double> zmscore(String key, String... members) {
+        return executeInJedis(jedis -> jedis.zmscore(key, members));
+    }
+
+    @Override
+    public KeyedListElement blpop(double timeout, String key) {
+        return executeInJedis(jedis -> jedis.blpop(timeout, key));
+    }
+
+    @Override
+    public KeyedListElement brpop(double timeout, String key) {
+        return executeInJedis(jedis -> jedis.brpop(timeout, key));
+    }
+
+    @Override
+    public Long geoadd(
+            String key, GeoAddParams params, Map<String, GeoCoordinate> memberCoordinateMap) {
+        return executeInJedis(jedis -> jedis.geoadd(key, params, memberCoordinateMap));
+    }
+
+    @Override
+    public StreamEntryID xadd(String key, Map<String, String> hash, XAddParams params) {
+        return executeInJedis(jedis -> jedis.xadd(key, hash, params));
+    }
+
+    @Override
+    public List<StreamEntry> xrange(String key, StreamEntryID start, StreamEntryID end) {
+        return executeInJedis(jedis -> jedis.xrange(key, start, end));
+    }
+
+    @Override
+    public List<StreamEntry> xrevrange(String key, StreamEntryID end, StreamEntryID start) {
+        return executeInJedis(jedis -> jedis.xrevrange(key, end, start));
+    }
+
+    @Override
+    public StreamPendingSummary xpending(String key, String groupname) {
+        return executeInJedis(jedis -> jedis.xpending(key, groupname));
+    }
+
+    @Override
+    public List<StreamPendingEntry> xpending(String key, String groupname, XPendingParams params) {
+        return executeInJedis(jedis -> jedis.xpending(key, groupname, params));
+    }
+
+    @Override
+    public long xtrim(String key, XTrimParams params) {
+        return executeInJedis(jedis -> jedis.xtrim(key, params));
+    }
+
+    @Override
+    public List<StreamEntry> xclaim(
+            String key,
+            String group,
+            String consumername,
+            long minIdleTime,
+            XClaimParams params,
+            StreamEntryID... ids) {
+        return executeInJedis(
+                jedis -> jedis.xclaim(key, group, consumername, minIdleTime, params, ids));
+    }
+
+    @Override
+    public List<StreamEntryID> xclaimJustId(
+            String key,
+            String group,
+            String consumername,
+            long minIdleTime,
+            XClaimParams params,
+            StreamEntryID... ids) {
+        return executeInJedis(
+                jedis -> jedis.xclaimJustId(key, group, consumername, minIdleTime, params, ids));
+    }
+
+    @Override
+    public Map.Entry<StreamEntryID, List<StreamEntry>> xautoclaim(
+            String key,
+            String group,
+            String consumerName,
+            long minIdleTime,
+            StreamEntryID start,
+            XAutoClaimParams params) {
+        return executeInJedis(
+                jedis -> jedis.xautoclaim(key, group, consumerName, minIdleTime, start, params));
+    }
+
+    @Override
+    public Map.Entry<StreamEntryID, List<StreamEntryID>> xautoclaimJustId(
+            String key,
+            String group,
+            String consumerName,
+            long minIdleTime,
+            StreamEntryID start,
+            XAutoClaimParams params) {
+        return executeInJedis(
+                jedis ->
+                        jedis.xautoclaimJustId(
+                                key, group, consumerName, minIdleTime, start, params));
+    }
+
+    @Override
+    public LCSMatchResult strAlgoLCSStrings(String strA, String strB, StrAlgoLCSParams params) {
+        return executeInJedis(jedis -> jedis.strAlgoLCSStrings(strA, strB, params));
     }
 
     @Override
