@@ -75,6 +75,15 @@ subprojects {
     }
 
     dependencies {
+
+        implementation('net.minidev:json-smart') {
+            version {
+                strictly '2.4.10'
+            }
+        }
+
+        implementation 'com.amazonaws:aws-java-sdk-s3:1.12.548'
+
         implementation "org.apache.logging.log4j:log4j-core:${versions.log4j}!!"
         implementation "org.apache.logging.log4j:log4j-api:${versions.log4j}!!"
         implementation "org.apache.logging.log4j:log4j-slf4j-impl:${versions.log4j}!!"
@@ -86,6 +95,25 @@ subprojects {
         annotationProcessor "org.projectlombok:lombok:${versions.revLombok}"
         testAnnotationProcessor "org.projectlombok:lombok:${versions.revLombok}"
         implementation "org.apache.commons:commons-lang3:${versions.revCommonsLang}"
+    }
+
+    allprojects {
+        configurations.all {
+            resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+                if (details.requested.group == 'com.fasterxml.jackson.core') {
+                    details.useVersion '2.15.2'
+                }
+                if (details.requested.group == 'com.fasterxml.jackson.dataformat') {
+                    details.useVersion '2.15.2'
+                }
+                if (details.requested.group == 'org.yaml') {
+                    details.useVersion '2.2'
+                }
+                if (details.requested.group == 'io.netty' && details.requested.version == '4.1.70.Final') {
+                    details.useVersion "4.1.94.Final"
+                }
+            }
+        }
     }
 
     dependencyManagement {
