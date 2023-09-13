@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
@@ -33,6 +34,7 @@ import com.netflix.conductor.core.exception.NotFoundException;
 import com.netflix.conductor.core.exception.TerminateWorkflowException;
 import com.netflix.conductor.core.execution.tasks.SystemTaskRegistry;
 import com.netflix.conductor.core.execution.tasks.WorkflowSystemTask;
+import com.netflix.conductor.core.listener.TaskStatusListener;
 import com.netflix.conductor.core.listener.WorkflowStatusListener;
 import com.netflix.conductor.core.metadata.MetadataMapperService;
 import com.netflix.conductor.core.utils.IDGenerator;
@@ -73,25 +75,29 @@ public class OrkesWorkflowExecutor extends WorkflowExecutor {
             QueueDAO queueDAO,
             MetadataMapperService metadataMapperService,
             WorkflowStatusListener workflowStatusListener,
+            TaskStatusListener taskStatusListener,
             ExecutionDAOFacade executionDAOFacade,
             ConductorProperties properties,
             ExecutionLockService executionLockService,
             @Lazy SystemTaskRegistry systemTaskRegistry,
             ParametersUtils parametersUtils,
             IDGenerator idGenerator,
-            RedisExecutionDAO executionDAO) {
+            RedisExecutionDAO executionDAO,
+            ApplicationEventPublisher applicationEventPublisher) {
         super(
                 deciderService,
                 metadataDAO,
                 queueDAO,
                 metadataMapperService,
                 workflowStatusListener,
+                taskStatusListener,
                 executionDAOFacade,
                 properties,
                 executionLockService,
                 systemTaskRegistry,
                 parametersUtils,
-                idGenerator);
+                idGenerator,
+                applicationEventPublisher);
 
         this.queueDAO = queueDAO;
         this.orkesExecutionDAOFacade = executionDAOFacade;

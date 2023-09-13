@@ -13,7 +13,9 @@
 package io.orkes.conductor.dao.archive;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Primary;
@@ -26,6 +28,7 @@ import com.netflix.conductor.common.run.TaskSummary;
 import com.netflix.conductor.common.run.WorkflowSummary;
 import com.netflix.conductor.core.events.queue.Message;
 import com.netflix.conductor.dao.IndexDAO;
+import com.netflix.conductor.model.WorkflowModel;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -66,6 +69,53 @@ public class ArchivedIndexDAO implements IndexDAO {
     public SearchResult<String> searchWorkflows(
             String query, String freeText, int start, int count, List<String> sort) {
         return archiveDAO.searchWorkflows(query, freeText, start, count);
+    }
+
+    @Override
+    public SearchResult<WorkflowSummary> searchWorkflowSummary(
+            String query, String freeText, int start, int count, List<String> sort) {
+        ScrollableSearchResult<String> results =
+                archiveDAO.searchWorkflows(query, freeText, start, count);
+        List<WorkflowSummary> workflowSummaryList =
+                results.getResults().stream()
+                        .map(wfId -> archiveDAO.getWorkflow(wfId, false))
+                        .filter(Objects::nonNull)
+                        .map(this::convertToWorkflowSummary)
+                        .collect(Collectors.toList());
+        return new SearchResult<>(results.getTotalHits(), workflowSummaryList);
+    }
+
+    private WorkflowSummary convertToWorkflowSummary(WorkflowModel wfModel) {
+        return new WorkflowSummary(wfModel.toWorkflow());
+    }
+
+    @Override
+    public CompletableFuture<Void> asyncRemoveTask(String workflowId, String taskId) {
+        log.debug("Task index is not maintained in this environment");
+        return CompletableFuture.completedFuture(null);
+    }
+
+    @Override
+    public CompletableFuture<Void> asyncUpdateTask(
+            String workflowId, String taskId, String[] keys, Object[] values) {
+        log.debug("Task index is not maintained in this environment");
+        return CompletableFuture.completedFuture(null);
+    }
+
+    @Override
+    public void updateTask(String workflowId, String taskId, String[] keys, Object[] values) {
+        throw new UnsupportedOperationException("Task index is not maintained in this environment");
+    }
+
+    @Override
+    public void removeTask(String workflowId, String taskId) {
+        throw new UnsupportedOperationException("Task index is not maintained in this environment");
+    }
+
+    @Override
+    public SearchResult<TaskSummary> searchTaskSummary(
+            String query, String freeText, int start, int count, List<String> sort) {
+        throw new UnsupportedOperationException("Task search is not supported in this environment");
     }
 
     @Override

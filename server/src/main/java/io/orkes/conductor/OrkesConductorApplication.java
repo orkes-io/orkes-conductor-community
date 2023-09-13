@@ -90,7 +90,7 @@ public class OrkesConductorApplication {
 
     @Bean
     public OpenAPI openAPI() {
-        log.info("openAPI Configuration....");
+        log.info("OpenAPI Configuration....");
         return new OpenAPI()
                 .info(
                         new Info()

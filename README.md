@@ -71,8 +71,8 @@ docker pull orkesio/orkes-conductor-community:latest
 * **Group:** `io.orkes.conductor`
 * **Artifacts:** `orkes-conductor-community-{server,persistence,archive}`
 
-| Artifact    | Gradle                                                                            |
-|-------------|-----------------------------------------------------------------------------------|
+| Artifact    | Gradle                                                                              |
+|-------------|-------------------------------------------------------------------------------------|
 | server      | `implementation 'io.orkes.conductor:orkes-conductor-community-server:VERSION'`      |
 | persistence | `implementation 'io.orkes.conductor:orkes-conductor-community-persistence:VERSION'` |  
 | archive     | `implementation 'io.orkes.conductor:orkes-conductor-community-archive:VERSION'`     |
@@ -88,7 +88,7 @@ Use GitHub issue tracking for filing issues and Discussion Forum for any other q
 [Orkes](http://orkes.io) development team creates and maintains the Orkes-Conductor releases.
 
 ## License
-Copyright 2022 Orkes, Inc
+Copyright 2023 Orkes, Inc
 
 Licensed under Orkes Community License.  You may obtain a copy of the License at:
 ```
