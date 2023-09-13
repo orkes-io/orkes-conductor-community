@@ -15,7 +15,6 @@ package com.netflix.conductor.redis.config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.netflix.conductor.redis.dynoqueue.ConfigurationHostSupplier;
@@ -29,9 +28,8 @@ import redis.clients.jedis.Protocol;
 @ConditionalOnProperty(name = "conductor.db.type", havingValue = "redis_standalone")
 public class RedisStandaloneConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(RedisSentinelConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(RedisStandaloneConfiguration.class);
 
-    @Bean
     public JedisPool getJedisPool(RedisProperties redisProperties) {
         JedisPoolConfig config = new JedisPoolConfig();
         config.setMinIdle(2);

@@ -20,7 +20,6 @@ import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.netflix.conductor.redis.dynoqueue.ConfigurationHostSupplier;
@@ -40,7 +39,6 @@ public class RedisClusterConfiguration {
     // Same as redis.clients.jedis.BinaryJedisCluster
     protected static final int DEFAULT_MAX_ATTEMPTS = 5;
 
-    @Bean
     public JedisCluster getJedisCluster(RedisProperties properties) {
         GenericObjectPoolConfig<Jedis> genericObjectPoolConfig = new GenericObjectPoolConfig<>();
         genericObjectPoolConfig.setMaxTotal(properties.getMaxConnectionsPerHost());

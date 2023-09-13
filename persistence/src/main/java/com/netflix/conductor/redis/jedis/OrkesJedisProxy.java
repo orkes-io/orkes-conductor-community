@@ -23,7 +23,6 @@ import org.springframework.stereotype.Component;
 
 import com.netflix.conductor.redis.config.AnyRedisCondition;
 
-import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.ScanParams;
 import redis.clients.jedis.ScanResult;
 import redis.clients.jedis.Tuple;
@@ -37,10 +36,10 @@ public class OrkesJedisProxy {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OrkesJedisProxy.class);
 
-    protected JedisStandalone jedisCommands;
+    protected OrkesJedisCommands jedisCommands;
 
-    public OrkesJedisProxy(JedisPool jedisPool) {
-        this.jedisCommands = new JedisStandalone(jedisPool);
+    public OrkesJedisProxy(OrkesJedisCommands jedisCommands) {
+        this.jedisCommands = jedisCommands;
     }
 
     public Set<String> zrange(String key, long start, long end) {

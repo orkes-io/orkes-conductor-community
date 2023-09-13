@@ -29,7 +29,7 @@ import redis.clients.jedis.resps.LCSMatchResult;
 /** A {@link JedisCommands} implementation that delegates to {@link JedisPool}. */
 @Component
 @ConditionalOnProperty(name = "conductor.db.type", havingValue = "redis_standalone")
-public class JedisStandalone implements JedisCommands {
+public class JedisStandalone implements OrkesJedisCommands {
 
     private final JedisPool jedisPool;
 
@@ -1154,10 +1154,12 @@ public class JedisStandalone implements JedisCommands {
         return executeInJedis(jedis -> jedis.xinfoConsumers(key, group));
     }
 
+    @Override
     public String set(byte[] key, byte[] value) {
         return executeInJedis(jedis -> jedis.set(key, value));
     }
 
+    @Override
     public byte[] getBytes(byte[] key) {
         return executeInJedis(jedis -> jedis.get(key));
     }
