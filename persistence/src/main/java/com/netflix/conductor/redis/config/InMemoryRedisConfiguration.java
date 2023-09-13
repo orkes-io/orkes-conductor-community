@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Orkes, Inc.
+ * Copyright 2020 Orkes, Inc.
  * <p>
  * Licensed under the Orkes Community License (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -20,12 +20,12 @@ import org.springframework.context.annotation.Primary;
 import com.netflix.conductor.redis.dynoqueue.LocalhostHostSupplier;
 import com.netflix.conductor.redis.jedis.JedisMock;
 import com.netflix.conductor.redis.jedis.JedisStandalone;
+import com.netflix.conductor.redis.jedis.OrkesJedisCommands;
 import com.netflix.conductor.redis.jedis.OrkesJedisProxy;
 import com.netflix.dyno.connectionpool.HostSupplier;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.commands.JedisCommands;
 
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnProperty(name = "conductor.db.type", havingValue = "memory")
@@ -44,8 +44,7 @@ public class InMemoryRedisConfiguration {
     }
 
     @Bean
-    public JedisCommands jedisCommands() {
-        //noinspection SpringConfigurationProxyMethods
+    public OrkesJedisCommands jedisCommands() {
         return new JedisStandalone(jedisPool());
     }
 
@@ -63,7 +62,6 @@ public class InMemoryRedisConfiguration {
     @Bean
     public OrkesJedisProxy OrkesJedisProxy() {
         System.out.println("OrkesJedisProxy created");
-        //noinspection SpringConfigurationProxyMethods
-        return new OrkesJedisProxy(jedisPool());
+        return new OrkesJedisProxy(jedisCommands());
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Orkes, Inc.
+ * Copyright 2020 Orkes, Inc.
  * <p>
  * Licensed under the Orkes Community License (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -19,13 +19,32 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import redis.clients.jedis.*;
-import redis.clients.jedis.commands.JedisCommands;
-import redis.clients.jedis.params.*;
-import redis.clients.jedis.resps.KeyedListElement;
-import redis.clients.jedis.resps.LCSMatchResult;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.stereotype.Component;
 
-public class JedisCluster implements JedisCommands {
+import redis.clients.jedis.BitPosParams;
+import redis.clients.jedis.GeoCoordinate;
+import redis.clients.jedis.GeoRadiusResponse;
+import redis.clients.jedis.GeoUnit;
+import redis.clients.jedis.ListPosition;
+import redis.clients.jedis.ScanParams;
+import redis.clients.jedis.ScanResult;
+import redis.clients.jedis.SortingParams;
+import redis.clients.jedis.StreamConsumersInfo;
+import redis.clients.jedis.StreamEntry;
+import redis.clients.jedis.StreamEntryID;
+import redis.clients.jedis.StreamGroupInfo;
+import redis.clients.jedis.StreamInfo;
+import redis.clients.jedis.StreamPendingEntry;
+import redis.clients.jedis.Tuple;
+import redis.clients.jedis.params.GeoRadiusParam;
+import redis.clients.jedis.params.SetParams;
+import redis.clients.jedis.params.ZAddParams;
+import redis.clients.jedis.params.ZIncrByParams;
+
+@Component
+@ConditionalOnProperty(name = "conductor.db.type", havingValue = "redis_cluster")
+public class JedisCluster implements OrkesJedisCommands {
 
     private final redis.clients.jedis.JedisCluster jedisCluster;
 
@@ -937,202 +956,12 @@ public class JedisCluster implements JedisCommands {
     }
 
     @Override
-    public String getDel(String key) {
-        return jedisCluster.getDel(key);
+    public String set(byte[] key, byte[] value) {
+        return jedisCluster.set(key, value);
     }
 
     @Override
-    public String getEx(String key, GetExParams params) {
-        return jedisCluster.getEx(key, params);
-    }
-
-    @Override
-    public String restore(String key, long ttl, byte[] serializedValue) {
-        return jedisCluster.restore(key, ttl, serializedValue);
-    }
-
-    @Override
-    public String restoreReplace(String key, long ttl, byte[] serializedValue) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public String restore(String key, long ttl, byte[] serializedValue, RestoreParams params) {
-        return jedisCluster.restore(key, ttl, serializedValue, params);
-    }
-
-    @Override
-    public Long expire(String key, long seconds) {
-        return jedisCluster.expire(key, seconds);
-    }
-
-    @Override
-    public String setex(String key, long seconds, String value) {
-        return jedisCluster.setex(key, seconds, value);
-    }
-
-    @Override
-    public String hrandfield(String key) {
-        return jedisCluster.hrandfield(key);
-    }
-
-    @Override
-    public List<String> hrandfield(String key, long count) {
-        return jedisCluster.hrandfield(key, count);
-    }
-
-    @Override
-    public Map<String, String> hrandfieldWithValues(String key, long count) {
-        return jedisCluster.hrandfieldWithValues(key, count);
-    }
-
-    @Override
-    public List<String> lpop(String key, int count) {
-        return jedisCluster.lpop(key, count);
-    }
-
-    @Override
-    public Long lpos(String key, String element) {
-        return jedisCluster.lpos(key, element);
-    }
-
-    @Override
-    public Long lpos(String key, String element, LPosParams params) {
-        return jedisCluster.lpos(key, element, params);
-    }
-
-    @Override
-    public List<Long> lpos(String key, String element, LPosParams params, long count) {
-        return jedisCluster.lpos(key, element, params, count);
-    }
-
-    @Override
-    public List<String> rpop(String key, int count) {
-        return jedisCluster.rpop(key, count);
-    }
-
-    @Override
-    public List<Boolean> smismember(String key, String... members) {
-        return jedisCluster.smismember(key, members);
-    }
-
-    @Override
-    public Double zaddIncr(String key, double score, String member, ZAddParams params) {
-        return jedisCluster.zaddIncr(key, score, member, params);
-    }
-
-    @Override
-    public String zrandmember(String key) {
-        return jedisCluster.zrandmember(key);
-    }
-
-    @Override
-    public Set<String> zrandmember(String key, long count) {
-        return jedisCluster.zrandmember(key, count);
-    }
-
-    @Override
-    public Set<Tuple> zrandmemberWithScores(String key, long count) {
-        return jedisCluster.zrandmemberWithScores(key, count);
-    }
-
-    @Override
-    public List<Double> zmscore(String key, String... members) {
-        return null;
-    }
-
-    @Override
-    public KeyedListElement blpop(double timeout, String key) {
-        return null;
-    }
-
-    @Override
-    public KeyedListElement brpop(double timeout, String key) {
-        return null;
-    }
-
-    @Override
-    public Long geoadd(
-            String key, GeoAddParams params, Map<String, GeoCoordinate> memberCoordinateMap) {
-        return null;
-    }
-
-    @Override
-    public StreamEntryID xadd(String key, Map<String, String> hash, XAddParams params) {
-        return null;
-    }
-
-    @Override
-    public List<StreamEntry> xrange(String key, StreamEntryID start, StreamEntryID end) {
-        return null;
-    }
-
-    @Override
-    public List<StreamEntry> xrevrange(String key, StreamEntryID end, StreamEntryID start) {
-        return null;
-    }
-
-    @Override
-    public StreamPendingSummary xpending(String key, String groupname) {
-        return null;
-    }
-
-    @Override
-    public List<StreamPendingEntry> xpending(String key, String groupname, XPendingParams params) {
-        return null;
-    }
-
-    @Override
-    public long xtrim(String key, XTrimParams params) {
-        return 0;
-    }
-
-    @Override
-    public List<StreamEntry> xclaim(
-            String key,
-            String group,
-            String consumername,
-            long minIdleTime,
-            XClaimParams params,
-            StreamEntryID... ids) {
-        return null;
-    }
-
-    @Override
-    public List<StreamEntryID> xclaimJustId(
-            String key,
-            String group,
-            String consumername,
-            long minIdleTime,
-            XClaimParams params,
-            StreamEntryID... ids) {
-        return null;
-    }
-
-    @Override
-    public Entry<StreamEntryID, List<StreamEntry>> xautoclaim(
-            String key,
-            String group,
-            String consumerName,
-            long minIdleTime,
-            StreamEntryID start,
-            XAutoClaimParams params) {
-        return null;
-    }
-
-    @Override
-    public Entry<StreamEntryID, List<StreamEntryID>> xautoclaimJustId(
-            String key,
-            String group,
-            String consumerName,
-            long minIdleTime,
-            StreamEntryID start,
-            XAutoClaimParams params) {
-        return null;
-    }
-
-    @Override
-    public LCSMatchResult strAlgoLCSStrings(String strA, String strB, StrAlgoLCSParams params) {
-        return null;
+    public byte[] getBytes(byte[] key) {
+        return jedisCluster.get(key);
     }
 }
