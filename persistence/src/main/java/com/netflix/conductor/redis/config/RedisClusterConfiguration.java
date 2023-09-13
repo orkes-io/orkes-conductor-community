@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Orkes, Inc.
+ * Copyright 2023 Orkes, Inc.
  * <p>
  * Licensed under the Orkes Community License (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -28,6 +28,7 @@ import com.netflix.conductor.redis.jedis.JedisCluster;
 import com.netflix.dyno.connectionpool.Host;
 
 import redis.clients.jedis.HostAndPort;
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Protocol;
 
 @Configuration(proxyBeanMethods = false)
@@ -41,7 +42,7 @@ public class RedisClusterConfiguration {
 
     @Bean
     public JedisCluster getJedisCluster(RedisProperties properties) {
-        GenericObjectPoolConfig<?> genericObjectPoolConfig = new GenericObjectPoolConfig<>();
+        GenericObjectPoolConfig<Jedis> genericObjectPoolConfig = new GenericObjectPoolConfig<>();
         genericObjectPoolConfig.setMaxTotal(properties.getMaxConnectionsPerHost());
         ConfigurationHostSupplier hostSupplier = new ConfigurationHostSupplier(properties);
         Set<HostAndPort> hosts =
