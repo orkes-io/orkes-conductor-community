@@ -83,6 +83,7 @@ subprojects {
         }
 
         implementation 'com.amazonaws:aws-java-sdk-s3:1.12.548'
+        implementation "redis.clients:jedis:${versions.revJedis}"
 
         implementation "org.apache.logging.log4j:log4j-core:${versions.log4j}!!"
         implementation "org.apache.logging.log4j:log4j-api:${versions.log4j}!!"
