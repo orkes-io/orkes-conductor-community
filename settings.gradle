@@ -2,5 +2,6 @@ rootProject.name = 'orkes-conductor'
 include 'archive'
 include 'persistence'
 include 'server'
+include 'test-harness'
 
 rootProject.children.each { it.name = "${rootProject.name}-${it.name}" }
