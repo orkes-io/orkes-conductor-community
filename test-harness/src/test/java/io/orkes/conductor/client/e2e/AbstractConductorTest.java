@@ -13,14 +13,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.testcontainers.containers.GenericContainer;
-import org.testcontainers.utility.DockerImageName;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
 
 @Slf4j
 public abstract class AbstractConductorTest {
@@ -40,11 +36,7 @@ public abstract class AbstractConductorTest {
     @SneakyThrows
     @BeforeAll
     public static final void setup() {
-        conductor = new GenericContainer(DockerImageName.parse("s1"))
-                .withExposedPorts(8080);
-        conductor.start();
-        int port = conductor.getFirstMappedPort();
-        String url = "http://localhost:" + port + "/api";
+        String url = "http://localhost:8899/api";
 
         apiClient = new ApiClient(url);
         workflowClient = new OrkesWorkflowClient(apiClient);
@@ -62,7 +54,6 @@ public abstract class AbstractConductorTest {
     @AfterAll
     public static void cleanup() {
         executor.shutdown();
-        conductor.stop();
     }
 
 

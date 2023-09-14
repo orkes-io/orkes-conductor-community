@@ -1,14 +1,4 @@
-import org.testcontainers.containers.GenericContainer;
-import org.testcontainers.utility.DockerImageName;
 
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'org.testcontainers:testcontainers:1.17.1'
-    }
-}
 dependencies {
 
 
@@ -23,21 +13,9 @@ dependencies {
     implementation 'io.orkes.conductor:orkes-conductor-client:1.1.19'
     implementation 'javax.annotation:javax.annotation-api:1.3.2'
 
-
-
     implementation "com.google.protobuf:protobuf-java:${versions.revProtoBuf}"
-
     implementation "io.netty:netty-tcnative-boringssl-static:2.0.51.Final"
-
     implementation "com.google.guava:guava:${versions.revGuava}"
-
-//    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
-//    implementation 'com.squareup.okhttp:logging-interceptor:2.7.5'
-
-
-
-
-
 
     implementation "org.apache.commons:commons-lang3:${versions.revCommonsLang}"
 
@@ -57,11 +35,8 @@ test {
     maxHeapSize = "4g" // maximum heap size
 }
 
-
-
 tasks.withType(Test)  {
-    maxParallelForks = 1
+    maxParallelForks = 10
 }
-
 
 tasks.forEach(task -> task.onlyIf { project.hasProperty('IntegrationTests') })
