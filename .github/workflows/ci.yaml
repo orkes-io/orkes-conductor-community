@@ -15,4 +15,4 @@ jobs:
           distribution: 'zulu'
           java-version: '11'
       - name: Build
-        run: ./gradlew clean build
+        run: ./run_tests.sh

@@ -1,0 +1,42 @@
+
+dependencies {
+
+
+
+    implementation "org.awaitility:awaitility:3.1.6"
+    implementation "org.testcontainers:postgresql:${versions.revTestContainer}"
+    implementation "org.testcontainers:testcontainers:${versions.revTestContainer}"
+    implementation 'ch.qos.logback:logback-classic:1.4.5'
+
+
+
+    implementation 'io.orkes.conductor:orkes-conductor-client:1.1.19'
+    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+
+    implementation "com.google.protobuf:protobuf-java:${versions.revProtoBuf}"
+    implementation "io.netty:netty-tcnative-boringssl-static:2.0.51.Final"
+    implementation "com.google.guava:guava:${versions.revGuava}"
+
+    implementation "org.apache.commons:commons-lang3:${versions.revCommonsLang}"
+
+    testImplementation 'org.testcontainers:testcontainers:1.17.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events = ["SKIPPED", "FAILED"]
+        exceptionFormat = "short"
+        showStandardStreams = true
+    }
+    minHeapSize = "2g" // initial heap size
+    maxHeapSize = "4g" // maximum heap size
+}
+
+tasks.withType(Test)  {
+    maxParallelForks = 10
+}
+
+tasks.forEach(task -> task.onlyIf { project.hasProperty('IntegrationTests') })
