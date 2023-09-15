@@ -1,5 +1,10 @@
 # Orkes Conductor
 Orkes Conductor is a fully compatible version of Netflix Conductor with **Orkes certified stack**.
+#### What is the community edition - OR how is it different from Netflix Conductor?
+At Orkes we continue to maintain the Netflix Conductor, and while running Conductor at scale across multiple clouds (including on-prem) we have put together a stack that we leverage for our own cloud offering that is easy to maintain and operate.
+
+As a way to contribute back to community, we are open sourcing the core stack we run our cloud offering to the community that makes it easy to run Netflix Conductor. This is a "certified" build of Netflix Conductor that is officially supported by Orkes.
+
 
 [![CI](https://github.com/orkes-io/orkes-conductor-community/actions/workflows/ci.yaml/badge.svg)](https://github.com/orkes-io/orkes-conductor-community/actions/workflows/ci.yml)
 [![CI](https://img.shields.io/badge/license-orkes%20community%20license-green)](https://github.com/orkes-io/licenses/blob/main/community/LICENSE.txt)
