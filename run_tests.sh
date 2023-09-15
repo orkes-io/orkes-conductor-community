@@ -1,4 +1,6 @@
 ./gradlew clean build
+# Create an empty ui build directory... we don't need UI for this build
+mkdir tmp/ui/conductor/ui/build
 docker rm -f  conductor_test_container
 docker build -f docker/DockerfileStandalone . -t conductor_test_container
 docker run -dit --name conductor_test_container -p 8899:8080 -t conductor_test_container
