@@ -3,7 +3,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Publish release to Maven Central
+name: Build and Publish Docker Builds
 on:
   release:
     types:
@@ -25,13 +25,13 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '11'
-      - name: Publish
+      - name: Build
         run: |
           export VERSION=${{github.ref_name}}
           export REL_VER=`echo ${VERSION:1}`
           echo "Release version is $REL_VER"
           echo "RELEASE_VERSION=$REL_VER" >> $GITHUB_ENV
-          ./gradlew publish -Pversion=$REL_VER -PmavenCentral -Pusername=${{ secrets.SONATYPE_USERNAME }} -Ppassword=${{ secrets.SONATYPE_PASSWORD }}
+          ./gradlew build -Pversion=$REL_VER
           echo "Building UI"
           ls -ltr server/build/libs
           docker/build-ui.sh

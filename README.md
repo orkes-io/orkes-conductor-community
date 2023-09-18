@@ -73,14 +73,12 @@ docker pull orkesio/orkes-conductor-community:latest
 
 ### Published Artifacts
 
-* **Group:** `io.orkes.conductor`
-* **Artifacts:** `orkes-conductor-community-{server,persistence,archive}`
+The docker files are published at the following:
+#### Server build suitable for the production deployment 
+https://hub.docker.com/r/orkesio/orkes-conductor-community
 
-| Artifact    | Gradle                                                                              |
-|-------------|-------------------------------------------------------------------------------------|
-| server      | `implementation 'io.orkes.conductor:orkes-conductor-community-server:VERSION'`      |
-| persistence | `implementation 'io.orkes.conductor:orkes-conductor-community-persistence:VERSION'` |  
-| archive     | `implementation 'io.orkes.conductor:orkes-conductor-community-archive:VERSION'`     |
+#### Local build useful for local build and development
+https://hub.docker.com/r/orkesio/orkes-conductor-community-standalone
 
 #### Production Configuration Recommendations
 The container and server jar published come with sensible defaults that work for most use cases.
