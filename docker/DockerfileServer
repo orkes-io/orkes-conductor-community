@@ -1,3 +1,34 @@
+#
+# conductor:server - Combined Netflix conductor server & UI
+#
+# ===========================================================================================================
+# 0. Builder stage
+# ===========================================================================================================
+FROM alpine:3.18 AS builder
+
+MAINTAINER Orkes Inc <builds@orkes.io>
+
+# ===========================================================================================================
+# 0. Build Conductor Server UI
+# ===========================================================================================================
+
+
+# Install dependencies
+RUN apk add openjdk17
+RUN apk add git
+RUN apk add --update nodejs npm yarn
+
+COPY . /conductor-community
+WORKDIR conductor-community
+RUN ./gradlew clean build -x test
+
+WORKDIR /
+RUN git clone https://github.com/Netflix/conductor
+WORKDIR conductor/ui
+RUN yarn install && yarn build
+RUN ls -ltr
+RUN echo "Done building UI"
+
 FROM alpine:3.18.3
 
 MAINTAINER Orkes Inc <builds@orkes.io>
@@ -16,7 +47,7 @@ RUN mkdir -p /app/config /app/logs /app/libs /app/info
 # Make sure to run build-ui.sh script before running the docker build to pull and build the UI
 WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
-COPY docker/tmp/ui/conductor/ui/build .
+COPY --from=builder /conductor/ui/build .
 COPY docker/config/nginx.conf /etc/nginx/http.d/default.conf
 
 # Startup script(s)
@@ -25,7 +56,7 @@ COPY docker/config/config.properties /app/config/config.properties
 COPY server/src/main/resources/banner.txt /app/config/banner.txt
 
 # JAR files
-COPY server/build/libs/orkes-conductor-server-boot.jar /app/libs/server.jar
+COPY --from=builder conductor-community/server/build/libs/orkes-conductor-server-boot.jar /app/libs/server.jar
 
 # Server version
 #COPY assembled/libs/server-version.txt* /app/info
