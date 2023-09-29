@@ -4,7 +4,7 @@ MAINTAINER Orkes Inc <builds@orkes.io>
 
 RUN apk add nginx
 
-RUN apk add openjdk11
+RUN apk add openjdk17
 
 RUN apk add coreutils
 RUN apk add curl
@@ -13,9 +13,10 @@ RUN apk add curl
 RUN mkdir -p /app/config /app/logs /app/libs /app/info
 
 # Add UI
+# Make sure to run build-ui.sh script before running the docker build to pull and build the UI
 WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
-COPY tmp/ui/conductor/ui/build .
+COPY docker/tmp/ui/conductor/ui/build .
 COPY docker/config/nginx.conf /etc/nginx/http.d/default.conf
 
 # Startup script(s)

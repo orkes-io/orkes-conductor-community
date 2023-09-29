@@ -1,0 +1,53 @@
+---
+version: '2.3'
+
+services:
+  postgresql:
+    image: postgres:11.15-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    ports:
+      - "7432:5432"
+    networks:
+      - internal
+
+  r1:
+    image: redis:alpine
+    restart: on-failure
+    command: "redis-server --save 60 1 --appendonly yes --loglevel warning"
+    healthcheck:
+      test: [ "CMD", "redis-cli","ping" ]
+    ports:
+      - "7379:6379"
+    networks:
+      - internal
+
+  server-1:
+    container_name: conductor
+    build:
+      context: ../
+      dockerfile: docker/DockerfileServer
+    environment:
+      - spring.datasource.url=jdbc:postgresql://postgresql:5432/postgres
+      - conductor.redis-lock.serverAddress=redis://r1:6379
+      - conductor.redis.hosts=r1:6379:us-east-1c
+      - conductor.queue.type=redis_standalone
+      - conductor.db.type=redis_standalone
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/health" ]
+    depends_on:
+      r1:
+        condition: service_healthy
+    links:
+      - r1
+      - postgresql
+    ports:
+      - "9090:8080"
+      - "6000:5000"
+    networks:
+      - internal
+
+networks:
+  internal:

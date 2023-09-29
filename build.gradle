@@ -15,7 +15,7 @@ ext {
     springBootVersion = '2.7.6'
 
     versions = [
-            revConductor            : '3.13.8',
+            revConductor            : '3.14.0',
             revTestContainer        : '1.17.2',
             revGuava                : '32.0.0-jre',
             revLog4j                : '2.17.1',
@@ -135,8 +135,8 @@ subprojects {
 
 
     compileJava {
-        sourceCompatibility = 11
-        targetCompatibility = 11
+        sourceCompatibility = 17
+        targetCompatibility = 17
     }
 
     spotless {
