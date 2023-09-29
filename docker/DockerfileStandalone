@@ -4,7 +4,7 @@ MAINTAINER Orkes Inc <builds@orkes.io>
 # Install software required to run conductor stack
 RUN apk add nginx
 RUN apk add coreutils
-RUN apk add openjdk11
+RUN apk add openjdk17
 RUN apk add redis
 RUN apk add postgresql14
 
@@ -12,9 +12,10 @@ RUN apk add postgresql14
 RUN mkdir -p /app/config /app/logs /app/libs /app/info
 
 # Add UI
+# Make sure to run build-ui.sh script before running the docker build to pull and build the UI
 WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
-COPY tmp/ui/conductor/ui/build .
+COPY docker/tmp/ui/conductor/ui/build .
 COPY docker/config/nginx.conf /etc/nginx/http.d/default.conf
 
 
