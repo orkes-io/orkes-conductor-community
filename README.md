@@ -6,7 +6,7 @@ At Orkes we continue to maintain the Netflix Conductor, and while running Conduc
 As a way to contribute back to community, we are open sourcing the core stack we run our cloud offering to the community that makes it easy to run Netflix Conductor. This is a "certified" build of Netflix Conductor that is officially supported by Orkes.
 
 
-[![CI](https://github.com/orkes-io/orkes-conductor-community/actions/workflows/ci.yaml/badge.svg)](https://github.com/orkes-io/orkes-conductor-community/actions/workflows/ci.yml)
+[![CI](https://github.com/orkes-io/orkes-conductor-community/actions/workflows/ci.yaml/badge.svg)](https://github.com/orkes-io/orkes-conductor-community/actions/workflows/ci.yaml)
 [![CI](https://img.shields.io/badge/license-orkes%20community%20license-green)](https://github.com/orkes-io/licenses/blob/main/community/LICENSE.txt)
 
 
