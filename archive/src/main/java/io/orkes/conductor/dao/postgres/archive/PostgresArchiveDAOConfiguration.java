@@ -98,6 +98,7 @@ public class PostgresArchiveDAOConfiguration {
                 .schemas("public")
                 .dataSource(dataSource)
                 .baselineOnMigrate(true)
+                .outOfOrder(true)
                 .mixed(true)
                 .load();
     }
