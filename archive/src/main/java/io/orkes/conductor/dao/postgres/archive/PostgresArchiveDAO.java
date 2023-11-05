@@ -103,10 +103,8 @@ public class PostgresArchiveDAO extends PostgresBaseDAO implements ArchiveDAO, D
                     indx++, connection.createArrayOf("text", indexData.toArray(new String[0])));
             statement.setString(indx++, workflow.getCreatedBy());
 
-            String workflowJson = null;
-            if (workflow.getStatus().isTerminal()) {
-                workflowJson = objectMapper.writeValueAsString(workflow);
-            }
+            String workflowJson = objectMapper.writeValueAsString(workflow);
+
             statement.setString(indx++, workflowJson);
             // Update values
             statement.setLong(indx++, updatedTime);
