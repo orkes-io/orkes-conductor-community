@@ -32,11 +32,6 @@ jobs:
           echo "Release version is $REL_VER"
           echo "RELEASE_VERSION=$REL_VER" >> $GITHUB_ENV
           ./gradlew build -Pversion=$REL_VER
-          echo "Building UI"
-          ls -ltr server/build/libs
-          cd docker
-          ./build-ui.sh
-          echo "Done building UI"
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
@@ -63,7 +58,7 @@ jobs:
             orkesio/orkes-conductor-community:latest
             orkesio/orkes-conductor-community:${{ env.RELEASE_VERSION }}
 
-      - name: Build and push Server
+      - name: Build and push Standalone
         uses: docker/build-push-action@v3
         with:
           context: .

@@ -25,6 +25,7 @@ RUN ./gradlew clean build -x test
 WORKDIR /
 RUN git clone https://github.com/Netflix/conductor
 WORKDIR conductor/ui
+RUN yarn config set network-timeout 600000 -g
 RUN yarn install && yarn build
 RUN ls -ltr
 RUN echo "Done building UI"
