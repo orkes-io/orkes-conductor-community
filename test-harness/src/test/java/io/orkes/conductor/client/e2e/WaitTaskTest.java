@@ -47,8 +47,8 @@ public class WaitTaskTest extends AbstractConductorTest {
         assertEquals(Workflow.WorkflowStatus.COMPLETED, run.getStatus());
         assertEquals(1, run.getTasks().size());
         long timeToExecute = run.getTasks().get(0).getEndTime() - run.getTasks().get(0).getScheduledTime();
-
+        System.out.println("Wait task completed in " + timeToExecute + " millis - should have completed in around 2 second mark");
         // Ensure the wait completes within 1sec buffer
-        assertTrue(timeToExecute < 31000, "Wait task did not complete in time, took " + timeToExecute + " millis");
+        assertTrue(timeToExecute < 3000, "Wait task did not complete in time, took " + timeToExecute + " millis");
     }
 }
