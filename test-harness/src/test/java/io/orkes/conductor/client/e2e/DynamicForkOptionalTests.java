@@ -12,9 +12,7 @@
  */
 package io.orkes.conductor.client.e2e;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Test;
@@ -54,6 +52,7 @@ public class DynamicForkOptionalTests extends AbstractConductorTest {
         startWorkflowRequest.setVersion(1);
 
         String workflowId = workflowClient.startWorkflow(startWorkflowRequest);
+        System.out.println("Started " + workflowId);
 
         Workflow workflow = workflowClient.getWorkflow(workflowId, true);
         TaskResult taskResult = new TaskResult();
@@ -61,20 +60,26 @@ public class DynamicForkOptionalTests extends AbstractConductorTest {
         taskResult.setTaskId(workflow.getTasks().get(0).getTaskId());
         taskResult.setStatus(TaskResult.Status.COMPLETED);
 
-        WorkflowTask workflowTask2 = new WorkflowTask();
-        workflowTask2.setName("integration_task_2");
-        workflowTask2.setTaskReferenceName("xdt1");
+        List<WorkflowTask> fanoutTasks = new ArrayList<>();
+        Map<String, Map<String, Object>> input = new HashMap<>();
 
-        WorkflowTask workflowTask3 = new WorkflowTask();
-        workflowTask3.setName("integration_task_3");
-        workflowTask3.setTaskReferenceName("xdt2");
-        workflowTask3.setOptional(true);
+        for (int i = 0; i < 100; i++) {
+            WorkflowTask workflowTask = new WorkflowTask();
+            workflowTask.setName("integration_task_2");
+            workflowTask.setTaskReferenceName("xdt" + i);
+            workflowTask.setOptional(true);
+            fanoutTasks.add(workflowTask);
+
+            input.put("xdt" + i, Map.of("k1", "v1"));
+
+        }
+
+
+
 
         Map<String, Object> output = new HashMap<>();
-        Map<String, Map<String, Object>> input = new HashMap<>();
-        input.put("xdt1", Map.of("k1", "v1"));
-        input.put("xdt2", Map.of("k2", "v2"));
-        output.put("dynamicTasks", Arrays.asList(workflowTask2, workflowTask3));
+
+        output.put("dynamicTasks", fanoutTasks);
         output.put("dynamicTasksInput", input);
         taskResult.setOutputData(output);
         taskClient.updateTask(taskResult);
@@ -166,6 +171,67 @@ public class DynamicForkOptionalTests extends AbstractConductorTest {
                         });
 
         metadataClient.unregisterWorkflowDef(workflowName1, 1);
+    }
+
+
+    @Test
+    public void testLargeFork() {
+
+        String workflowName1 = "DynamicFanInOutTest";
+        int count = 200;
+
+        // Register workflow
+        registerWorkflowDef(workflowName1, metadataClient);
+
+        // Trigger workflow
+        StartWorkflowRequest startWorkflowRequest = new StartWorkflowRequest();
+        startWorkflowRequest.setName(workflowName1);
+        startWorkflowRequest.setVersion(1);
+
+        String workflowId = workflowClient.startWorkflow(startWorkflowRequest);
+        System.out.println("Started " + workflowId);
+
+        Workflow workflow = workflowClient.getWorkflow(workflowId, true);
+        TaskResult taskResult = new TaskResult();
+        taskResult.setWorkflowInstanceId(workflowId);
+        taskResult.setTaskId(workflow.getTasks().get(0).getTaskId());
+        taskResult.setStatus(TaskResult.Status.COMPLETED);
+
+        List<WorkflowTask> fanoutTasks = new ArrayList<>();
+        Map<String, Map<String, Object>> input = new HashMap<>();
+
+        for (int i = 0; i < count; i++) {
+            WorkflowTask workflowTask = new WorkflowTask();
+            workflowTask.setName("integration_task_2");
+            workflowTask.setTaskReferenceName("xdt" + i);
+            workflowTask.setOptional(true);
+            fanoutTasks.add(workflowTask);
+
+            input.put("xdt" + i, Map.of("k1", "v1"));
+
+        }
+
+        Map<String, Object> output = new HashMap<>();
+
+        output.put("dynamicTasks", fanoutTasks);
+        output.put("dynamicTasksInput", input);
+        taskResult.setOutputData(output);
+        taskClient.updateTask(taskResult);
+
+        workflow = workflowClient.getWorkflow(workflowId, true);
+        for (Task task : workflow.getTasks()) {
+            if(!task.getStatus().isTerminal()) {
+                taskResult = new TaskResult();
+                taskResult.setWorkflowInstanceId(workflowId);
+                taskResult.setTaskId(task.getTaskId());
+                taskResult.setStatus(TaskResult.Status.COMPLETED);
+                taskClient.updateTask(taskResult);
+            }
+        }
+        workflow = workflowClient.getWorkflow(workflowId, true);
+        System.out.println("workflow status: " + workflow.getStatus());
+
+
     }
 
     @Test
