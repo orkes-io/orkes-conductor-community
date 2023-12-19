@@ -20,11 +20,12 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Configuration
-@ConfigurationProperties("conductor.app.sweeper")
+@ConfigurationProperties("conductor.orkes.sweeper")
 @Getter
 @Setter
 @ToString
 public class OrkesSweeperProperties {
+    private int frequencyMillis = 10;
     private int sweepBatchSize = 5;
     private int queuePopTimeout = 100;
 }
