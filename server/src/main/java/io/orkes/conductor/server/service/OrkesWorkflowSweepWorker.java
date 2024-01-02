@@ -90,8 +90,11 @@ public class OrkesWorkflowSweepWorker {
             // 1. Run decide on the workflow
             WorkflowModel workflow = executionDAO.getWorkflow(workflowId, true);
             if (workflow == null) {
-                throw new NotFoundException(
-                        String.format("Workflow NOT found by id: %s", workflowId));
+                log.warn(
+                        "Workflow NOT found by id: {}. Removed it from decider queue safely.",
+                        workflowId);
+                queueDAO.remove(DECIDER_QUEUE, workflowId);
+                return;
             }
             workflow = decideAndRemove(workflow);
             if (workflow == null || workflow.getStatus().isTerminal()) {
