@@ -21,7 +21,6 @@ public class Commons {
     public static String OWNER_EMAIL = "example@orkes.io";
     public static int WORKFLOW_VERSION = 1;
 
-
     public static TaskDef getTaskDef() {
         TaskDef taskDef = new TaskDef();
         taskDef.setName(Commons.TASK_NAME);

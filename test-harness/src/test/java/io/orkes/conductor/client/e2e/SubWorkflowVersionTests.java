@@ -32,8 +32,8 @@ import com.netflix.conductor.common.metadata.workflow.WorkflowTask;
 import com.netflix.conductor.common.run.Workflow;
 
 import io.orkes.conductor.client.*;
-import io.orkes.conductor.client.model.*;
 import io.orkes.conductor.client.e2e.util.RegistrationUtil;
+import io.orkes.conductor.client.model.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;

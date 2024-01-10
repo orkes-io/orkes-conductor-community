@@ -25,16 +25,13 @@ import com.netflix.conductor.common.metadata.workflow.WorkflowDef;
 import com.netflix.conductor.common.metadata.workflow.WorkflowTask;
 import com.netflix.conductor.common.run.Workflow;
 
-import io.orkes.conductor.client.ApiClient;
-import io.orkes.conductor.client.WorkflowClient;
-import io.orkes.conductor.client.http.OrkesWorkflowClient;
 import io.orkes.conductor.client.e2e.util.Commons;
 
 import com.google.common.util.concurrent.Uninterruptibles;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class JSONJQTests extends AbstractConductorTest{
+public class JSONJQTests extends AbstractConductorTest {
     @Test
     public void testJQOutputIsReachableWhenSyncSystemTaskIsNext() {
 

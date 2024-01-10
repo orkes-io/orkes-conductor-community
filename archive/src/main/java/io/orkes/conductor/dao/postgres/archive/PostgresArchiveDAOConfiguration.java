@@ -12,7 +12,6 @@
  */
 package io.orkes.conductor.dao.postgres.archive;
 
-import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.apache.logging.log4j.util.Strings;
@@ -36,6 +35,7 @@ import io.orkes.conductor.metrics.MetricsCollector;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

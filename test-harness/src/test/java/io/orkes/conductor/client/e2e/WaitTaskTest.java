@@ -31,10 +31,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class WaitTaskTest extends AbstractConductorTest {
 
-
-
     @Test
-    public void testWaitTimeout()  throws ExecutionException, InterruptedException, TimeoutException {
+    public void testWaitTimeout()
+            throws ExecutionException, InterruptedException, TimeoutException {
         ConductorWorkflow<Map<String, Object>> workflow = new ConductorWorkflow<>(executor);
         workflow.setName("wait_task_test");
         workflow.setVersion(1);
@@ -46,9 +45,15 @@ public class WaitTaskTest extends AbstractConductorTest {
         assertNotNull(run);
         assertEquals(Workflow.WorkflowStatus.COMPLETED, run.getStatus());
         assertEquals(1, run.getTasks().size());
-        long timeToExecute = run.getTasks().get(0).getEndTime() - run.getTasks().get(0).getScheduledTime();
-        System.out.println("Wait task completed in " + timeToExecute + " millis - should have completed in around 2 second mark");
+        long timeToExecute =
+                run.getTasks().get(0).getEndTime() - run.getTasks().get(0).getScheduledTime();
+        System.out.println(
+                "Wait task completed in "
+                        + timeToExecute
+                        + " millis - should have completed in around 2 second mark");
         // Ensure the wait completes within 1sec buffer
-        assertTrue(timeToExecute < 3000, "Wait task did not complete in time, took " + timeToExecute + " millis");
+        assertTrue(
+                timeToExecute < 3000,
+                "Wait task did not complete in time, took " + timeToExecute + " millis");
     }
 }

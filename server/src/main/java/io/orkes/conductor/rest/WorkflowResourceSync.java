@@ -15,8 +15,6 @@ package io.orkes.conductor.rest;
 import java.util.ArrayList;
 import java.util.concurrent.*;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.web.bind.annotation.*;
 
 import com.netflix.conductor.common.metadata.workflow.StartWorkflowRequest;
@@ -27,6 +25,7 @@ import io.orkes.conductor.common.model.WorkflowRun;
 
 import com.google.common.util.concurrent.Uninterruptibles;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;

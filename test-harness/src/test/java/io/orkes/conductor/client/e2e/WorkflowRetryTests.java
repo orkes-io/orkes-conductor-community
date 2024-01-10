@@ -16,7 +16,6 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.testcontainers.shaded.com.google.common.util.concurrent.Uninterruptibles;
 
 import com.netflix.conductor.common.metadata.tasks.Task;
 import com.netflix.conductor.common.metadata.tasks.TaskResult;
@@ -25,9 +24,6 @@ import com.netflix.conductor.common.run.SearchResult;
 import com.netflix.conductor.common.run.Workflow;
 import com.netflix.conductor.common.run.WorkflowSummary;
 
-import io.orkes.conductor.client.http.OrkesMetadataClient;
-import io.orkes.conductor.client.http.OrkesTaskClient;
-import io.orkes.conductor.client.http.OrkesWorkflowClient;
 import io.orkes.conductor.client.model.*;
 
 import lombok.extern.slf4j.Slf4j;
@@ -272,6 +268,4 @@ public class WorkflowRetryTests extends AbstractConductorTest {
                             }
                         });
     }
-
-
 }

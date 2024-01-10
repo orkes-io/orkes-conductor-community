@@ -6,21 +6,21 @@ jar {
 }
 dependencies {
 
-    implementation "com.netflix.conductor:conductor-common:${versions.revConductor}"
-    implementation "com.netflix.conductor:conductor-core:${versions.revConductor}"
-    implementation "com.netflix.conductor:conductor-redis-lock:${versions.revConductor}"
-    implementation "com.netflix.conductor:conductor-grpc:${versions.revConductor}"
-    implementation "com.netflix.conductor:conductor-rest:${versions.revConductor}"
-    implementation "com.netflix.conductor:conductor-redis-concurrency-limit:${versions.revConductor}"
+    implementation "org.conductoross:conductor-common:${versions.revConductor}"
+    implementation "org.conductoross:conductor-core:${versions.revConductor}"
+    implementation "org.conductoross:conductor-redis-lock:${versions.revConductor}"
+    implementation "org.conductoross:conductor-grpc:${versions.revConductor}"
+    implementation "org.conductoross:conductor-rest:${versions.revConductor}"
+    implementation "org.conductoross:conductor-redis-concurrency-limit:${versions.revConductor}"
 
-    implementation "com.netflix.conductor:conductor-http-task:${versions.revConductor}"
-    implementation "com.netflix.conductor:conductor-awss3-storage:${versions.revConductor}"
-    implementation "com.netflix.conductor:conductor-awssqs-event-queue:${versions.revConductor}"
-    implementation "com.netflix.conductor:conductor-json-jq-task:${versions.revConductor}"
-    implementation "com.netflix.conductor:conductor-amqp:${versions.revConductor}"
-    implementation "com.netflix.conductor:conductor-nats:${versions.revConductor}"
-    implementation "com.netflix.conductor:conductor-kafka:${versions.revConductor}"
-    implementation "com.netflix.conductor:conductor-metrics:${versions.revConductor}"
+    implementation "org.conductoross:conductor-http-task:${versions.revConductor}"
+    implementation "org.conductoross:conductor-awss3-storage:${versions.revConductor}"
+    implementation "org.conductoross:conductor-awssqs-event-queue:${versions.revConductor}"
+    implementation "org.conductoross:conductor-json-jq-task:${versions.revConductor}"
+    implementation "org.conductoross:conductor-amqp:${versions.revConductor}"
+    implementation "org.conductoross:conductor-nats:${versions.revConductor}"
+    implementation "org.conductoross:conductor-kafka:${versions.revConductor}"
+    implementation "org.conductoross:conductor-metrics:${versions.revConductor}"
 
     implementation "io.orkes.queues:orkes-conductor-queues:${versions.revOrkesQueues}"
     implementation project(":orkes-conductor-archive")
@@ -35,6 +35,7 @@ dependencies {
 
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-actuator-autoconfigure'
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -48,9 +49,20 @@ dependencies {
 
     runtimeOnly 'com.netflix.spectator:spectator-reg-micrometer'
     implementation "io.micrometer:micrometer-registry-prometheus:1.7.5"
-    implementation "io.micrometer:micrometer-core:1.8.0"
+    implementation "io.micrometer:micrometer-core:1.11.4"
+
+
+
+//    implementation "com.netflix.spectator:spectator-reg-metrics3:${revSpectator}"
+//    implementation "com.netflix.spectator:spectator-reg-micrometer:${revSpectator}"
+//    implementation "io.prometheus:simpleclient:${revPrometheus}"
+//    implementation "io.micrometer:micrometer-registry-prometheus:${revMicrometer}"
+
+
+
 
     implementation "com.jayway.jsonpath:json-path:${versions.revJsonPath}"
+    implementation "redis.clients:jedis:${versions.revJedis}"
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'

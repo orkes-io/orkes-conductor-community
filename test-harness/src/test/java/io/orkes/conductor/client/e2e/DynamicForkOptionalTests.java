@@ -27,9 +27,6 @@ import com.netflix.conductor.common.metadata.workflow.WorkflowTask;
 import com.netflix.conductor.common.run.Workflow;
 
 import io.orkes.conductor.client.*;
-import io.orkes.conductor.client.http.OrkesMetadataClient;
-import io.orkes.conductor.client.http.OrkesTaskClient;
-import io.orkes.conductor.client.http.OrkesWorkflowClient;
 import io.orkes.conductor.client.model.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -71,11 +68,7 @@ public class DynamicForkOptionalTests extends AbstractConductorTest {
             fanoutTasks.add(workflowTask);
 
             input.put("xdt" + i, Map.of("k1", "v1"));
-
         }
-
-
-
 
         Map<String, Object> output = new HashMap<>();
 
@@ -173,7 +166,6 @@ public class DynamicForkOptionalTests extends AbstractConductorTest {
         metadataClient.unregisterWorkflowDef(workflowName1, 1);
     }
 
-
     @Test
     public void testLargeFork() {
 
@@ -208,7 +200,6 @@ public class DynamicForkOptionalTests extends AbstractConductorTest {
             fanoutTasks.add(workflowTask);
 
             input.put("xdt" + i, Map.of("k1", "v1"));
-
         }
 
         Map<String, Object> output = new HashMap<>();
@@ -220,7 +211,7 @@ public class DynamicForkOptionalTests extends AbstractConductorTest {
 
         workflow = workflowClient.getWorkflow(workflowId, true);
         for (Task task : workflow.getTasks()) {
-            if(!task.getStatus().isTerminal()) {
+            if (!task.getStatus().isTerminal()) {
                 taskResult = new TaskResult();
                 taskResult.setWorkflowInstanceId(workflowId);
                 taskResult.setTaskId(task.getTaskId());
@@ -230,8 +221,6 @@ public class DynamicForkOptionalTests extends AbstractConductorTest {
         }
         workflow = workflowClient.getWorkflow(workflowId, true);
         System.out.println("workflow status: " + workflow.getStatus());
-
-
     }
 
     @Test

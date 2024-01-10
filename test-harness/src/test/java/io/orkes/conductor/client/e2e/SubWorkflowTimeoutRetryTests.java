@@ -22,10 +22,6 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import com.netflix.conductor.client.http.MetadataClient;
-import com.netflix.conductor.client.http.TaskClient;
-import com.netflix.conductor.client.http.WorkflowClient;
-import com.netflix.conductor.common.config.ObjectMapperProvider;
 import com.netflix.conductor.common.metadata.tasks.Task;
 import com.netflix.conductor.common.metadata.tasks.TaskResult;
 import com.netflix.conductor.common.metadata.tasks.TaskType;
@@ -34,12 +30,9 @@ import com.netflix.conductor.common.metadata.workflow.WorkflowDef;
 import com.netflix.conductor.common.metadata.workflow.WorkflowTask;
 import com.netflix.conductor.common.run.Workflow;
 
-import io.orkes.conductor.client.AuthorizationClient;
-import io.orkes.conductor.client.OrkesClients;
 import io.orkes.conductor.client.automator.TaskRunnerConfigurer;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.util.concurrent.Uninterruptibles;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +43,8 @@ import static org.testcontainers.shaded.org.awaitility.Awaitility.await;
 @Slf4j
 public class SubWorkflowTimeoutRetryTests extends AbstractConductorTest {
 
-    private static TypeReference<List<WorkflowDef>> WORKFLOW_DEF_LIST = new TypeReference<List<WorkflowDef>>() {};
+    private static TypeReference<List<WorkflowDef>> WORKFLOW_DEF_LIST =
+            new TypeReference<List<WorkflowDef>>() {};
 
     private static final String WORKFLOW_NAME = "integration_test_wf_with_sub_wf";
 

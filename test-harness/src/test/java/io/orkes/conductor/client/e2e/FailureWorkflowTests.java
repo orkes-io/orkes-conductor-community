@@ -15,8 +15,6 @@ package io.orkes.conductor.client.e2e;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-import com.netflix.conductor.common.metadata.tasks.Task;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -27,13 +25,7 @@ import com.netflix.conductor.common.metadata.workflow.WorkflowDef;
 import com.netflix.conductor.common.metadata.workflow.WorkflowTask;
 import com.netflix.conductor.common.run.Workflow;
 
-import io.orkes.conductor.client.ApiClient;
 import io.orkes.conductor.client.MetadataClient;
-import io.orkes.conductor.client.TaskClient;
-import io.orkes.conductor.client.WorkflowClient;
-import io.orkes.conductor.client.http.OrkesMetadataClient;
-import io.orkes.conductor.client.http.OrkesTaskClient;
-import io.orkes.conductor.client.http.OrkesWorkflowClient;
 
 import lombok.extern.slf4j.Slf4j;
 

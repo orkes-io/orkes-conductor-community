@@ -1,12 +1,12 @@
 buildscript {
     dependencies {
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:2.5.15"
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:3.1.4'
         classpath 'com.diffplug.spotless:spotless-plugin-gradle:6.+'
     }
 }
 
 plugins {
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.13.RELEASE'
 }
 
 ext {
@@ -15,7 +15,7 @@ ext {
     springBootVersion = '2.7.6'
 
     versions = [
-            revConductor            : '3.15.0',
+            revConductor            : '3.16.0',
             revTestContainer        : '1.17.2',
             revGuava                : '32.0.0-jre',
             revLog4j                : '2.17.1',
@@ -75,28 +75,30 @@ subprojects {
         }
     }
 
-    dependencies {
 
+
+    dependencies {
         implementation('net.minidev:json-smart') {
             version {
                 strictly '2.4.10'
             }
         }
 
-        implementation 'com.amazonaws:aws-java-sdk-s3:1.12.548'
-        implementation "redis.clients:jedis:${versions.revJedis}"
-
-        implementation "org.apache.logging.log4j:log4j-core:${versions.revLog4j}!!"
-        implementation "org.apache.logging.log4j:log4j-api:${versions.revLog4j}!!"
-        implementation "org.apache.logging.log4j:log4j-slf4j-impl:${versions.revLog4j}!!"
-        implementation "org.apache.logging.log4j:log4j-jul:${versions.revLog4j}!!"
-        implementation "org.apache.logging.log4j:log4j-web:${versions.revLog4j}!!"
-        implementation "org.apache.logging.log4j:log4j-to-slf4j:${versions.revLog4j}!!"
-
+        implementation('org.apache.logging.log4j:log4j-core')
+        implementation('org.apache.logging.log4j:log4j-api')
+        implementation('org.apache.logging.log4j:log4j-slf4j-impl')
+        implementation('org.apache.logging.log4j:log4j-jul')
+        implementation('org.apache.logging.log4j:log4j-web')
+        annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
         compileOnly "org.projectlombok:lombok:${versions.revLombok}"
         annotationProcessor "org.projectlombok:lombok:${versions.revLombok}"
-        testAnnotationProcessor "org.projectlombok:lombok:${versions.revLombok}"
         implementation "org.apache.commons:commons-lang3:${versions.revCommonsLang}"
+
+        testImplementation('org.springframework.boot:spring-boot-starter-test')
+        testImplementation('org.springframework.boot:spring-boot-starter-log4j2')
+        testAnnotationProcessor "org.projectlombok:lombok:${versions.revLombok}"
+        testImplementation 'junit:junit'
+        testImplementation "org.junit.vintage:junit-vintage-engine"
     }
 
     allprojects {

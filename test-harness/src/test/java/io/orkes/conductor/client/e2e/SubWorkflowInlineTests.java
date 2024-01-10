@@ -28,13 +28,7 @@ import com.netflix.conductor.common.metadata.workflow.WorkflowDef;
 import com.netflix.conductor.common.metadata.workflow.WorkflowTask;
 import com.netflix.conductor.common.run.Workflow;
 
-import io.orkes.conductor.client.ApiClient;
 import io.orkes.conductor.client.MetadataClient;
-import io.orkes.conductor.client.TaskClient;
-import io.orkes.conductor.client.WorkflowClient;
-import io.orkes.conductor.client.http.OrkesMetadataClient;
-import io.orkes.conductor.client.http.OrkesTaskClient;
-import io.orkes.conductor.client.http.OrkesWorkflowClient;
 import io.orkes.conductor.client.model.WorkflowStatus;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
