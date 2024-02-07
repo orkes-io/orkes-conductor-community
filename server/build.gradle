@@ -22,7 +22,9 @@ dependencies {
     implementation "org.conductoross:conductor-kafka:${versions.revConductor}"
     implementation "org.conductoross:conductor-metrics:${versions.revConductor}"
 
-    implementation "io.orkes.queues:orkes-conductor-queues:${versions.revOrkesQueues}"
+    implementation ("io.orkes.queues:orkes-conductor-queues:${versions.revOrkesQueues}") {
+        exclude group: "org.apache.logging.log4j", module: "log4j-to-slf4j"
+    }
     implementation project(":orkes-conductor-archive")
     implementation project(":orkes-conductor-persistence")
 
@@ -48,7 +50,7 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
     runtimeOnly 'com.netflix.spectator:spectator-reg-micrometer'
-    implementation "io.micrometer:micrometer-registry-prometheus:1.7.5"
+    implementation "io.micrometer:micrometer-registry-prometheus:1.11.4"
     implementation "io.micrometer:micrometer-core:1.11.4"
 
 
